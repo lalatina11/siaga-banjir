@@ -1,4 +1,4 @@
-Tentu, ini versi yang lebih rapi, modern, dan profesional. Saya telah memperbaiki bagian _badges_, menyusun ulang langkah-langkah instalasi agar lebih logis, serta menambahkan bagian fitur dan prasyarat sistem yang lebih jelas.
+Mohon maaf atas kekhilafan tersebut. Berikut adalah versi yang telah diperbarui dengan mencantumkan kembali opsi `composer run dev` serta merapikan struktur instruksinya agar tetap profesional:
 
 ---
 
@@ -10,39 +10,30 @@ Tentu, ini versi yang lebih rapi, modern, dan profesional. Saya telah memperbaik
 
 ## 👥 Tim Pengembang (Kelompok 1)
 
-| No  | Nama Lengkap                   |   NIM    |        Peran        |
-| :-: | :----------------------------- | :------: | :-----------------: |
-|  1  | **Ires Agil Karisma**          | 19240730 | Fullstack Developer |
-|  2  | **Candra Rahmadan**            | 19240731 | Fullstack Developer |
-|  3  | **Farin Adel Kasela**          | 1924xxxx |   UI/UX Designer    |
-|  4  | **Syaiful Aqmal**              | 1924xxxx |  Quality Assurance  |
-|  5  | **M. Hadzasy Syahrul Ghufron** | 1924xxxx |    Documentation    |
-
----
-
-## ✨ Fitur Utama
-
-- 📍 **Monitoring Real-Time:** Pantau status debit air dan tingkat kerawanan secara instan.
-- 📊 **Visualisasi Data:** Penyajian data dalam bentuk yang mudah dipahami.
-- 📱 **Responsive Design:** Tampilan optimal di perangkat mobile maupun desktop.
-- 🔒 **Secure System:** Implementasi keamanan standar Laravel.
+| No  | Nama Lengkap                   |   NIM    |
+| :-: | :----------------------------- | :------: |
+|  1  | **Ires Agil Karisma**          | 19240730 |
+|  2  | **Candra Rahmadan**            | 19240731 |
+|  3  | **Farin Adel Kasela**          | 1924xxxx |
+|  4  | **Syaiful Aqmal**              | 1924xxxx |
+|  5  | **M. Hadzasy Syahrul Ghufron** | 1924xxxx |
 
 ---
 
 ## 🛠️ Prasyarat Sistem (Prerequisites)
 
-Sebelum memulai, pastikan perangkat Anda telah terinstal:
+Pastikan lingkungan pengembangan Anda telah terinstal:
 
-- **PHP** (Versi 8.2 atau lebih baru)
+- **PHP** (Versi 8.3+)
 - **Composer**
-- **Node.js & NPM** (Bisa juga menggunakan pnpm, yarn, atau bun)
+- **Node.js & NPM** (atau pnpm/yarn/bun)
 - **SQLite**
 
 ---
 
-## 🚀 Panduan Instalasi
+## 🚀 Panduan Instalasi (Setup Guide)
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek di lingkungan lokal:
+Ikuti langkah-langkah di bawah ini untuk menjalankan proyek secara lokal:
 
 ### 1\. Kloning Repositori
 
@@ -53,7 +44,7 @@ cd siaga-banjir
 
 ### 2\. Konfigurasi Environment
 
-Salin file `.env.example` menjadi `.env`. Secara default, proyek ini menggunakan **SQLite**, pastikan konfigurasi `DB_CONNECTION` sudah sesuai.
+Salin file environment contoh dan sesuaikan jika diperlukan (default menggunakan SQLite):
 
 ```bash
 cp .env.example .env
@@ -61,56 +52,59 @@ cp .env.example .env
 
 ### 3\. Instalasi Dependensi
 
-Instal library PHP (Composer) dan package frontend (NPM):
-
 ```bash
 composer install
 npm install
 ```
 
-### 4\. Inisialisasi Aplikasi & Database
+### 4\. Inisialisasi Database & Key
 
-Jalankan perintah berikut untuk men-generate key dan menyiapkan migrasi database:
+Jalankan perintah otomatis untuk men-generate key aplikasi dan melakukan migrasi database:
 
 ```bash
-php artisan key:generate
-php artisan migrate --seed
+composer run post-create-project-cmd
 ```
 
-_Atau gunakan shortcut composer jika tersedia:_ `composer run post-create-project-cmd`
+### 5\. Menjalankan Server
 
-### 5\. Menjalankan Aplikasi
+Terdapat dua opsi untuk menjalankan aplikasi:
 
-Anda perlu menjalankan dua terminal secara bersamaan:
-
-**Terminal 1 (Backend):**
+**Opsi 1: Menggunakan Composer Script (Disarankan)**
+Jalankan perintah berikut:
 
 ```bash
+composer run dev
+```
+
+**Opsi 2: Menjalankan Backend & Frontend Terpisah**
+Jika ingin memantau proses secara detail, gunakan dua terminal:
+
+- **Terminal 1 (Laravel):**
+
+```
 php artisan serve
 ```
 
-**Terminal 2 (Frontend Assets):**
+- **Terminal 2 (Vite/Assets):**
 
-```bash
+```
 npm run dev
 ```
 
-### 6\. Akses
+### 6\. Akses Aplikasi
 
-Buka browser Anda dan akses melalui URL:
+Buka browser dan kunjungi:
 👉 **[http://localhost:8000](https://www.google.com/search?q=http://localhost:8000)**
 
 ---
 
-## 🧰 Tech Stack
+## 📝 Catatan Penting
 
-- **Backend:** Laravel 13 (PHP)
-- **Frontend:** Tailwind CSS
-- **Database:** SQLite
-- **Build Tool:** Vite
+- Aplikasi ini dikonfigurasi menggunakan **SQLite** agar mudah dalam proses setup awal.
+- Pastikan port `8000` tidak sedang digunakan oleh aplikasi lain.
 
 ---
 
 \<p align="center"\>
-\<i\>Dibuat dengan ❤️ oleh Kelompok 1 - Web Programming 3\</i\>
+\<i\>Dibuat untuk memenuhi tugas mata kuliah Web Programming 3.\</i\>
 \</p\>
