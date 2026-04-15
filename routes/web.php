@@ -8,7 +8,7 @@ Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
 
-Route::get('/register', [AuthController::class, 'showRegisterPage']);
+Route::get('/auth', [AuthController::class, 'showAuthPage'])->name("login");
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'showLoginPage']);
-Route::get('/flood', fn () => Inertia::render('single-flood'));
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/flood', fn() => Inertia::render('single-flood'));
