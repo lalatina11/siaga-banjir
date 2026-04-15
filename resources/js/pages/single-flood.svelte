@@ -1,67 +1,54 @@
 <script lang="ts">
+    import { onMount, onDestroy } from 'svelte';
+    import 'leaflet/dist/leaflet.css';
+    import { marker, type MapOptions } from 'leaflet';
     import MainLayout from '@/layouts/main-layout.svelte';
-    import type { MapOptions, TileLayerOptions } from 'leaflet';
-    import { onMount, tick } from 'svelte';
-    import { LeafletMap, Marker, Popup, TileLayer } from 'svelte-leafletjs';
-    import type { Hst as HstType } from '@histoire/plugin-svelte';
+    import * as Card from '@/lib/components/ui/card';
 
-    let Hst: HstType;
+    let mapElement: HTMLElement;
+    let map: any;
+    let markerId = $state('');
 
-    // Tambahkan tick
-    let leafletMap: any; // Untuk binding komponen
-
-    const mapOptions: MapOptions = {
+    const mapOptions = {
         center: [-7.4244, 109.2303],
-        zoom: 13,
-    };
-
-    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-
-    const tileOptions: TileLayerOptions = {
-        attribution: '&copy; OpenStreetMap contributors',
-    };
+        zoom: 10,
+    } satisfies MapOptions;
 
     onMount(async () => {
-        // Tunggu sampai DOM benar-benar stabil
-        await tick();
+        const leaflet = await import('leaflet');
+        map = leaflet
+            .map(mapElement)
+            .setView(mapOptions.center, mapOptions.zoom);
+        leaflet
+            .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+            })
+            .addTo(map);
+        leaflet.marker(mapOptions.center).addTo(map).bindPopup('Banjir');
+    });
 
-        // Ambil instance map asli dari wrapper
-        const mapInstance = leafletMap.getMap();
-
-        if (mapInstance) {
-            // Paksa Leaflet menghitung ulang dimensi kontainer
-            setTimeout(() => {
-                mapInstance.invalidateSize();
-            }, 100);
-        }
-        window.addEventListener('resize', () => {
-            mapInstance.invalidateSize();
-        });
-        document.documentElement.classList.remove('dark');
+    onDestroy(() => {
+        if (map) map.remove();
     });
 </script>
 
 <MainLayout>
-    <div class="p-6">
-        <h1 class="text-2xl font-bold mb-4">Peta Pantauan Banjir Cepat</h1>
-
-        <div
-            class="h-[600px] w-full border rounded-lg overflow-hidden relative"
+    <main class="flex flex-col">
+        <Card.Root
+            class="mx-auto flex flex-col justify-center items-center mt-10"
         >
-            <LeafletMap bind:this={leafletMap} options={mapOptions}>
-                <TileLayer url={tileUrl} options={tileOptions} />
-                <Marker latLng={[-7.4244, 109.2303]}>
-                    <Popup>Pusat Kota Purwokerto</Popup>
-                </Marker>
-            </LeafletMap>
-        </div>
-    </div>
+            <Card.Content
+                class="w-[350px] md:w-[600px] overflow-hidden aspect-square flex justify-center items-center"
+            >
+                <div bind:this={mapElement} class="map rounded-md"></div>
+            </Card.Content>
+        </Card.Root>
+    </main>
 </MainLayout>
 
 <style>
-    :global(.leaflet-container) {
-        height: 100% !important;
-        width: 100% !important;
-        background: #262626;
+    .map {
+        height: 500px;
+        width: 500px;
     }
 </style>
