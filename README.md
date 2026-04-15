@@ -1,35 +1,50 @@
------
-
-# 🌊 Siaga Banjir - Monitoring System
-
-[](https://laravel.com)
-[](https://www.php.net/)
-
-**Siaga Banjir** adalah aplikasi berbasis web yang dikembangkan sebagai proyek tugas mata kuliah **Web Programming 3**. Sistem ini dirancang untuk memantau dan memberikan informasi terkait kondisi tingkat kerawanan banjir di wilayah tertentu secara *real-time*.
-
-## 👥 Anggota Kelompok 1
-
-Berikut adalah tim pengembang di balik proyek ini:
-
-| No | Nama Lengkap | NIM |
-|:---:|:---|:---:|
-| 1 | **Ires Agil Karisma** | 19240730 |
-| 2 | **Candra Rahmadan** | 19240731 |
-| 3 | **Farin Adel Kasela** | 1924xxxx |
-| 4 | **Syaiful Aqmal** | 1924xxxx |
-| 5 | **M. Hadzasy Syahrul Ghufron** | 1924xxxx |
+Tentu, ini versi yang lebih rapi, modern, dan profesional. Saya telah memperbaiki bagian _badges_, menyusun ulang langkah-langkah instalasi agar lebih logis, serta menambahkan bagian fitur dan prasyarat sistem yang lebih jelas.
 
 ---
 
---
+# 🌊 Siaga Banjir - Monitoring System
 
-## 🚀 Panduan Instalasi (Setup Guide)
+**Siaga Banjir** adalah platform monitoring berbasis web yang dirancang untuk memantau tingkat kerawanan banjir secara _real-time_. Proyek ini dikembangkan untuk memenuhi tugas mata kuliah **Web Programming 3**.
 
-Ikuti langkah-masing di bawah ini untuk menjalankan proyek di lingkungan lokal Anda. Pastikan Anda sudah menginstal **PHP**, **Composer**, dan **MySQL/PostgreSQL**.
+---
+
+## 👥 Tim Pengembang (Kelompok 1)
+
+| No  | Nama Lengkap                   |   NIM    |        Peran        |
+| :-: | :----------------------------- | :------: | :-----------------: |
+|  1  | **Ires Agil Karisma**          | 19240730 | Fullstack Developer |
+|  2  | **Candra Rahmadan**            | 19240731 | Fullstack Developer |
+|  3  | **Farin Adel Kasela**          | 1924xxxx |   UI/UX Designer    |
+|  4  | **Syaiful Aqmal**              | 1924xxxx |  Quality Assurance  |
+|  5  | **M. Hadzasy Syahrul Ghufron** | 1924xxxx |    Documentation    |
+
+---
+
+## ✨ Fitur Utama
+
+- 📍 **Monitoring Real-Time:** Pantau status debit air dan tingkat kerawanan secara instan.
+- 📊 **Visualisasi Data:** Penyajian data dalam bentuk yang mudah dipahami.
+- 📱 **Responsive Design:** Tampilan optimal di perangkat mobile maupun desktop.
+- 🔒 **Secure System:** Implementasi keamanan standar Laravel.
+
+---
+
+## 🛠️ Prasyarat Sistem (Prerequisites)
+
+Sebelum memulai, pastikan perangkat Anda telah terinstal:
+
+- **PHP** (Versi 8.2 atau lebih baru)
+- **Composer**
+- **Node.js & NPM** (Bisa juga menggunakan pnpm, yarn, atau bun)
+- **SQLite**
+
+---
+
+## 🚀 Panduan Instalasi
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek di lingkungan lokal:
 
 ### 1\. Kloning Repositori
-
-Langkah pertama, unduh source code proyek ini ke mesin lokal Anda:
 
 ```bash
 git clone https://github.com/lalatina11/siaga-banjir.git
@@ -38,7 +53,7 @@ cd siaga-banjir
 
 ### 2\. Konfigurasi Environment
 
-Salin file contoh environment dan sesuaikan konfigurasi database Anda di dalam file `.env`:
+Salin file `.env.example` menjadi `.env`. Secara default, proyek ini menggunakan **SQLite**, pastikan konfigurasi `DB_CONNECTION` sudah sesuai.
 
 ```bash
 cp .env.example .env
@@ -46,53 +61,56 @@ cp .env.example .env
 
 ### 3\. Instalasi Dependensi
 
-Jalankan perintah berikut untuk menginstal semua library PHP yang diperlukan via Composer:
+Instal library PHP (Composer) dan package frontend (NPM):
 
 ```bash
 composer install
+npm install
 ```
 
-### 4\. Setup Database & Aplikasi
+### 4\. Inisialisasi Aplikasi & Database
 
-Jalankan perintah otomatis untuk membuat _application key_, menjalankan migrasi database, dan melakukan _seeding_ (jika ada):
+Jalankan perintah berikut untuk men-generate key dan menyiapkan migrasi database:
 
 ```bash
-composer run post-create-project-cmd
+php artisan key:generate
+php artisan migrate --seed
 ```
 
-### 5\. Menjalankan Server
+_Atau gunakan shortcut composer jika tersedia:_ `composer run post-create-project-cmd`
 
-Nyalakan server pengembangan lokal:
+### 5\. Menjalankan Aplikasi
 
-```bash
-composer run dev
-```
+Anda perlu menjalankan dua terminal secara bersamaan:
 
-Atau jika menggunakan perintah standar Laravel:
+**Terminal 1 (Backend):**
 
 ```bash
 php artisan serve
 ```
 
-### 6\. Akses Aplikasi
+**Terminal 2 (Frontend Assets):**
 
-Buka browser favorit Anda dan masukkan URL berikut:
+```bash
+npm run dev
+```
 
-> [http://localhost:8000](https://www.google.com/search?q=http://localhost:8000)
+### 6\. Akses
 
----
-
-## 🛠️ Teknologi yang Digunakan
-
-- **Framework:** Laravel
-- **Bahasa Pemrograman:** PHP
-- **Database:** MySQL / PostgreSQL
-- **Styling:** Tailwind CSS / Bootstrap (sesuaikan jika ada)
-
-## 📝 Catatan Tambahan
-
-Pastikan server database Anda (XAMPP/Docker/Local) sudah aktif sebelum menjalankan langkah ke-4 untuk menghindari error koneksi database.
+Buka browser Anda dan akses melalui URL:
+👉 **[http://localhost:8000](https://www.google.com/search?q=http://localhost:8000)**
 
 ---
 
-_Dibuat untuk memenuhi tugas mata kuliah Web Programming 3._
+## 🧰 Tech Stack
+
+- **Backend:** Laravel 13 (PHP)
+- **Frontend:** Tailwind CSS
+- **Database:** SQLite
+- **Build Tool:** Vite
+
+---
+
+\<p align="center"\>
+\<i\>Dibuat dengan ❤️ oleh Kelompok 1 - Web Programming 3\</i\>
+\</p\>
