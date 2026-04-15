@@ -1,5 +1,3 @@
-Mohon maaf atas kekhilafan tersebut. Berikut adalah versi yang telah diperbarui dengan mencantumkan kembali opsi `composer run dev` serta merapikan struktur instruksinya agar tetap profesional:
-
 ---
 
 # 🌊 Siaga Banjir - Monitoring System
@@ -104,7 +102,3 @@ Buka browser dan kunjungi:
 - Pastikan port `8000` tidak sedang digunakan oleh aplikasi lain.
 
 ---
-
-\<p align="center"\>
-\<i\>Dibuat untuk memenuhi tugas mata kuliah Web Programming 3.\</i\>
-\</p\>
