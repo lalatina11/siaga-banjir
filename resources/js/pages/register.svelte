@@ -3,6 +3,7 @@
     import AuthLayout from '@/layouts/auth-layout.svelte';
     import { Button, buttonVariants } from '@/lib/components/ui/button';
     import * as Card from '@/lib/components/ui/card';
+    import * as InputGroup from '@/lib/components/ui/input-group';
     import * as Field from '@/lib/components/ui/field';
     import { Input } from '@/lib/components/ui/input';
     import { Link, router } from '@inertiajs/svelte';
@@ -11,18 +12,28 @@
     import { toast } from 'svelte-sonner';
     import z from 'zod';
     import { Spinner } from '@/lib/components/ui/spinner';
+    import { Eye, EyeOff } from '@lucide/svelte/icons';
+
     const registerSchema = z
         .object({
             name: z
                 .string()
-                .min(3, 'Nama minimal 3 karakter')
-                .max(64, 'Nama maksimal 64 karakter'),
-            email: z.email(),
-            password: z.string().min(8).max(32),
-            password_confirmation: z.string().min(8).max(32),
+                .min(3, { message: 'Nama minimal 3 karakter' })
+                .max(64, { message: 'Nama maksimal 64 karakter' }),
+            email: z.email({ message: 'Email tidak valid' }),
+            password: z
+                .string()
+                .min(8, { message: 'Password minimal 8 karakter' })
+                .max(32, { message: 'Password maksimal 32 karakter' }),
+            password_confirmation: z
+                .string()
+                .min(8, { message: 'Konfirmasi password minimal 8 karakter' })
+                .max(32, {
+                    message: 'Konfirmasi password maksimal 32 karakter',
+                }),
         })
         .refine((data) => data.password === data.password_confirmation, {
-            message: 'Passwords does not match',
+            message: 'Kata sandi tidak cocok',
             path: ['password_confirmation'],
         });
     let isLoading = $state(false);
@@ -158,22 +169,44 @@
                                         <Field.Label for={field.name}
                                             >Password</Field.Label
                                         >
-                                        <Input
-                                            oninput={(e) => {
-                                                const { value } =
-                                                    e.target as HTMLInputElement;
-                                                field.setValue(value);
-                                            }}
-                                            id={field.name}
-                                            name={field.name}
-                                            value={field.state.value}
-                                            onblur={() => field.handleBlur()}
-                                            aria-invalid={field.state.meta
-                                                .isTouched &&
-                                                !field.state.meta.isValid}
-                                            autocomplete="off"
-                                            placeholder="********"
-                                        />
+                                        <InputGroup.Root>
+                                            <InputGroup.Input
+                                                oninput={(e) => {
+                                                    const { value } =
+                                                        e.target as HTMLInputElement;
+                                                    field.setValue(value);
+                                                }}
+                                                id={field.name}
+                                                name={field.name}
+                                                value={field.state.value}
+                                                onblur={() =>
+                                                    field.handleBlur()}
+                                                aria-invalid={field.state.meta
+                                                    .isTouched &&
+                                                    !field.state.meta.isValid}
+                                                autocomplete="off"
+                                                placeholder="********"
+                                                type={showPassword
+                                                    ? 'text'
+                                                    : 'password'}
+                                            />
+                                            <InputGroup.Addon
+                                                align="inline-end"
+                                            >
+                                                <InputGroup.Button
+                                                    onclick={() =>
+                                                        (showPassword =
+                                                            !showPassword)}
+                                                >
+                                                    {#if showPassword}
+                                                        <EyeOff />
+                                                    {:else}
+                                                        <Eye />
+                                                    {/if}
+                                                </InputGroup.Button>
+                                            </InputGroup.Addon>
+                                        </InputGroup.Root>
+
                                         {#if field.state.meta.errors[0]}
                                             <Field.Error
                                                 errors={[
@@ -190,22 +223,43 @@
                                         <Field.Label for={field.name}
                                             >Konfirmasi Password</Field.Label
                                         >
-                                        <Input
-                                            oninput={(e) => {
-                                                const { value } =
-                                                    e.target as HTMLInputElement;
-                                                field.setValue(value);
-                                            }}
-                                            id={field.name}
-                                            name={field.name}
-                                            value={field.state.value}
-                                            onblur={() => field.handleBlur()}
-                                            aria-invalid={field.state.meta
-                                                .isTouched &&
-                                                !field.state.meta.isValid}
-                                            autocomplete="off"
-                                            placeholder="********"
-                                        />
+                                        <InputGroup.Root>
+                                            <InputGroup.Input
+                                                oninput={(e) => {
+                                                    const { value } =
+                                                        e.target as HTMLInputElement;
+                                                    field.setValue(value);
+                                                }}
+                                                id={field.name}
+                                                name={field.name}
+                                                value={field.state.value}
+                                                onblur={() =>
+                                                    field.handleBlur()}
+                                                aria-invalid={field.state.meta
+                                                    .isTouched &&
+                                                    !field.state.meta.isValid}
+                                                autocomplete="off"
+                                                placeholder="********"
+                                                type={showConfirmPassword
+                                                    ? 'text'
+                                                    : 'password'}
+                                            />
+                                            <InputGroup.Addon
+                                                align="inline-end"
+                                            >
+                                                <InputGroup.Button
+                                                    onclick={() =>
+                                                        (showConfirmPassword =
+                                                            !showConfirmPassword)}
+                                                >
+                                                    {#if showConfirmPassword}
+                                                        <EyeOff />
+                                                    {:else}
+                                                        <Eye />
+                                                    {/if}
+                                                </InputGroup.Button>
+                                            </InputGroup.Addon>
+                                        </InputGroup.Root>
                                         {#if field.state.meta.errors[0]}
                                             <Field.Error
                                                 errors={[
