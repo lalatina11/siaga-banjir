@@ -18,13 +18,19 @@
         const leaflet = await import('leaflet');
         map = leaflet
             .map(mapElement)
-            .setView(mapOptions.center, mapOptions.zoom);
+            .setView(mapOptions.center, mapOptions.zoom)
+            .on('click', (e) => {
+                leaflet
+                    .marker({ ...e.latlng })
+                    .addTo(map)
+                    .bindPopup('Banjir');
+            });
         leaflet
             .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
             })
             .addTo(map);
-        leaflet.marker(mapOptions.center).addTo(map).bindPopup('Banjir');
+        // leaflet.marker(mapOptions.center).addTo(map).bindPopup('Banjir');
     });
 
     onDestroy(() => {
