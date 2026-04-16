@@ -51,7 +51,7 @@ class AuthController extends Controller
                 return redirect()->back()->withErrors($err->getMessage());
             }
 
-            return redirect()->back()->withErrors('Something went wrong');
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
         }
     }
     public function login(Request $request)
@@ -85,7 +85,7 @@ class AuthController extends Controller
                 return redirect()->back()->withErrors($err->getMessage());
             }
 
-            return redirect()->back()->withErrors('Something went wrong');
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
         }
     }
     public function logout(Request $request)
@@ -95,13 +95,13 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('home');
+            return redirect()->route('login');
         } catch (\Exception $err) {
             if (config('app.debug')) {
                 return redirect()->back()->withErrors($err->getMessage());
             }
 
-            return redirect()->back()->withErrors('Something went wrong');
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
         }
     }
 

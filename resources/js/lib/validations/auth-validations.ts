@@ -6,7 +6,10 @@ export const registerSchema = z
             .string()
             .min(3, { message: 'Nama minimal 3 karakter' })
             .max(64, { message: 'Nama maksimal 64 karakter' }),
-        email: z.email({ message: 'Email tidak valid' }),
+        email: z
+            .email({ message: 'Email tidak valid' })
+            .trim()
+            .lowercase('Email harus menggunakan huruf kecil'),
         password: z
             .string()
             .min(8, { message: 'Password minimal 8 karakter' })
@@ -24,7 +27,10 @@ export const registerSchema = z
     });
 
 export const loginSchema = z.object({
-    email: z.email({ message: 'Email tidak valid' }),
+    email: z
+        .email({ message: 'Email tidak valid' })
+        .trim()
+        .lowercase('Email harus menggunakan huruf kecil'),
     password: z
         .string()
         .min(8, { message: 'Password minimal 8 karakter' })
