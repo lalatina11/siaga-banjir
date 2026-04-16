@@ -3,12 +3,23 @@
     import AuthLayout from '@/layouts/auth-layout.svelte';
     import LoginForm from '@/lib/components/form/auth-form/login-form.svelte';
     import RegisterForm from '@/lib/components/form/auth-form/register-form.svelte';
+    import ModeToggle from '@/lib/components/mode-toggle.svelte';
     import { Button } from '@/lib/components/ui/button';
     import * as Card from '@/lib/components/ui/card';
-    let isLoginPage = $state(true);
+    import { router } from '@inertiajs/svelte';
 
+    const searchParams = $derived(new URLSearchParams(window.location.search));
+    const isLoginPage = $derived(searchParams.get('tab') !== 'register');
     function switchAuthParam() {
-        isLoginPage = !isLoginPage;
+        const params = new URLSearchParams(window.location.search);
+        if (isLoginPage) {
+            params.set('tab', 'register');
+        } else {
+            params.set('tab', 'login');
+        }
+        router.push({
+            url: `${window.location.pathname}?${params.toString()}`,
+        });
     }
 </script>
 
@@ -22,14 +33,25 @@
     <main>
         <section class="w-full flex justify-center items-center">
             <Card.Root class="w-sm mx-auto mt-20">
-                <Card.Header>
+                <Card.Header
+                    class="flex flex-row justify-between items-center w-full"
+                >
                     {#if isLoginPage}
-                        <Card.Title>Masuk</Card.Title>
-                        <Card.Description>Masuk ke akun anda</Card.Description>
+                        <Card.Header class="flex-1">
+                            <Card.Title>Masuk</Card.Title>
+                            <Card.Description
+                                >Masuk ke akun anda</Card.Description
+                            >
+                        </Card.Header>
                     {:else}
-                        <Card.Title>Daftar</Card.Title>
-                        <Card.Description>Daftarkan akun anda</Card.Description>
+                        <Card.Header class="flex-1">
+                            <Card.Title>Daftar</Card.Title>
+                            <Card.Description
+                                >Daftarkan akun anda</Card.Description
+                            >
+                        </Card.Header>
                     {/if}
+                    <ModeToggle />
                 </Card.Header>
                 <Card.Content>
                     {#if isLoginPage}
