@@ -45,6 +45,8 @@
             router.post('/login', value, requestOptions);
         },
     }));
+    const formState = form.useStore((state) => state.isSubmitting);
+    let isFormLoading = $derived(formState.current || isLoading);
 </script>
 
 <form
@@ -125,8 +127,13 @@
             {/snippet}
         </form.Field>
         <div class="flex w-full">
-            <Button type="submit" disabled={isLoading} size="lg" class="w-full">
-                {#if isLoading}
+            <Button
+                type="submit"
+                disabled={isFormLoading}
+                size="lg"
+                class="w-full"
+            >
+                {#if isFormLoading}
                     <Spinner />
                 {:else}
                     Masuk

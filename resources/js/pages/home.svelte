@@ -11,7 +11,7 @@
     }
 </script>
 
-<AppHead></AppHead>
+<AppHead title="Home" />
 <MainLayout>
     <main class="flex flex-col min-h-screen">
         <span>Main</span>
