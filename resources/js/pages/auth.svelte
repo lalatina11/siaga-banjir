@@ -23,11 +23,7 @@
     }
 </script>
 
-{#if !isLoginPage}
-    <AppHead title="Daftar" />
-{:else}
-    <AppHead title="Masuk" />
-{/if}
+<AppHead title={!isLoginPage ? 'Daftar' : 'Masuk'} />
 
 <AuthLayout>
     <main>
@@ -36,21 +32,16 @@
                 <Card.Header
                     class="flex flex-row justify-between items-center w-full"
                 >
-                    {#if isLoginPage}
-                        <Card.Header class="flex-1">
-                            <Card.Title>Masuk</Card.Title>
-                            <Card.Description
-                                >Masuk ke akun anda</Card.Description
-                            >
-                        </Card.Header>
-                    {:else}
-                        <Card.Header class="flex-1">
-                            <Card.Title>Daftar</Card.Title>
-                            <Card.Description
-                                >Daftarkan akun anda</Card.Description
-                            >
-                        </Card.Header>
-                    {/if}
+                    <Card.Header class="flex-1">
+                        <Card.Title
+                            >{isLoginPage ? 'Masuk' : 'Daftar'}</Card.Title
+                        >
+                        <Card.Description
+                            >{isLoginPage
+                                ? 'Masuk ke akun anda'
+                                : 'Daftarkan akun anda'}</Card.Description
+                        >
+                    </Card.Header>
                     <ModeToggle />
                 </Card.Header>
                 <Card.Content>
@@ -61,17 +52,14 @@
                     {/if}
                 </Card.Content>
                 <Card.Footer>
-                    {#if isLoginPage}
-                        <span>Belum Punya akun?</span>
-                        <Button onclick={switchAuthParam} variant="link"
-                            >Daftar</Button
-                        >
-                    {:else}
-                        <span>Sudah Punya akun?</span>
-                        <Button onclick={switchAuthParam} variant="link"
-                            >Masuk</Button
-                        >
-                    {/if}
+                    <span
+                        >{isLoginPage
+                            ? 'Belum Punya akun?'
+                            : 'Sudah Punya akun?'}</span
+                    >
+                    <Button onclick={switchAuthParam} variant="link"
+                        >{isLoginPage ? 'Daftar' : 'Masuk'}</Button
+                    >
                 </Card.Footer>
             </Card.Root>
         </section>
