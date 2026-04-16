@@ -12,8 +12,10 @@ return new class extends Migration {
     {
         Schema::create('floods', function (Blueprint $table) {
             $table->id();
-            $table->decimal('lat');
-            $table->decimal('lng');
+            $table->decimal('lat', 10, 7);
+            $table->decimal('lng', 10, 7);
+            $table->text('description');
+            $table->text('image');
             $table->timestamps();
         });
     }

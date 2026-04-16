@@ -68,13 +68,26 @@ class AuthController extends Controller
                 return redirect()->back()->withErrors('Pengguna tidak ditemukan');
             }
 
-            $token = Auth::attempt($validated);
-
-            Log::info($token);
-
-            if (!$token) {
+            if (!Auth::attempt($validated)) {
                 return redirect()->back()->withErrors('Password tidak valid');
             }
+
+            $request->session()->regenerate();
+
+            return redirect()->route('home');
+        } catch (\Exception $err) {
+            if (config('app.debug')) {
+                return redirect()->back()->withErrors($err->getMessage());
+            }
+
+            return redirect()->back()->withErrors('Something went wrong');
+        }
+    }
+    public function logout(Request $request)
+    {
+        try {
+            Auth::logout();
+
             $request->session()->regenerate();
 
             return redirect()->route('home');
