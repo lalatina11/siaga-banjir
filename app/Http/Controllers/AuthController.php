@@ -31,7 +31,12 @@ class AuthController extends Controller
                 return redirect()->back()->withErrors('Email sudah digunakan, silahkan ganti');
             }
 
-            User::create($validated);
+            User::create([
+                'email' => $validated['email'],
+                'name' => $validated['name'],
+                'password' => $validated['password'],
+                'role' => 'USER',
+            ]);
 
             $token = Auth::attempt($validated);
 
