@@ -14,8 +14,18 @@ return new class extends Migration {
             $table->id();
             $table->decimal('lat', 10, 7);
             $table->decimal('lng', 10, 7);
-            $table->text('description');
+            $table->text('description')->default("");
             $table->text('image');
+            $table->enum('status', [
+                'NEW',
+                'AID_DISPATCHED',
+                'AID_ARRIVED',
+                'RESOLVE'
+            ])->default('NEW');
+            $table->text('province');
+            $table->text('regency');
+            $table->text('district');
+            $table->text('village');
             $table->timestamps();
         });
     }

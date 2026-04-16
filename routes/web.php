@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FloodController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get(
     '/',
-    fn() => Inertia::render('home')
+    [FloodController::class, 'index']
 )->name('home');
+
+Route::get('/flood/{id}', [FloodController::class, 'show'])->name('single-flood');
 
 Route::middleware(['guest.middleware'])->group(function () {
     Route::get('/auth', [AuthController::class, 'showAuthPage'])->name('login');
