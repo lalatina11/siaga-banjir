@@ -1,4 +1,5 @@
 <script lang="ts">
+    import QueryClientProvider from '@/lib/components/providers/query-client-provider.svelte';
     import { Toaster } from '@/lib/components/ui/sonner';
     import type { ParentProps } from '@/lib/types/parent-props';
     import { ModeWatcher } from 'mode-watcher';
@@ -8,4 +9,6 @@
 
 <ModeWatcher />
 <Toaster position="top-center" />
-{@render children()}
+<QueryClientProvider>
+    {@render children()}
+</QueryClientProvider>

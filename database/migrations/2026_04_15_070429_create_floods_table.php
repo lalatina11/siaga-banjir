@@ -12,16 +12,19 @@ return new class extends Migration {
     {
         Schema::create('floods', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->decimal('lat', 10, 7);
             $table->decimal('lng', 10, 7);
             $table->text('description')->default("");
             $table->text('image');
+            $table->text('image_storage_url')->nullable();
             $table->enum('status', [
+                'PENDING',
                 'NEW',
                 'AID_DISPATCHED',
                 'AID_ARRIVED',
                 'RESOLVE'
-            ])->default('NEW');
+            ])->default(value: 'PENDING');
             $table->text('province');
             $table->text('regency');
             $table->text('district');

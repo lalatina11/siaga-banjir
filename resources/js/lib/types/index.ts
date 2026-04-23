@@ -1,5 +1,9 @@
 import { Decimal } from 'decimal.js-light';
 import { usePage } from '@inertiajs/svelte';
+import { allowedFloodStatus } from '../validations/flood-validations';
+import type { User } from '@/types';
+
+export type FloodStatus = (typeof allowedFloodStatus)[number];
 
 export interface Flood {
     created_at: string;
@@ -11,11 +15,22 @@ export interface Flood {
     lng: number;
     province: string;
     regency: string;
-    status: string;
+    status: FloodStatus;
     updated_at: string;
     village: string;
 }
 
+export interface FloodWithUser extends Flood {
+    user?: User;
+}
+
 export type PageProps = ReturnType<typeof usePage>['props'];
 
+export type DefaultPageProps = PageProps;
+
 export type DecimalType = typeof Decimal;
+
+export type UploadedFile = File & {
+    uploadedAt: number;
+    url: Promise<string>;
+};

@@ -5,6 +5,7 @@
     import { Link, usePage } from '@inertiajs/svelte';
     import { buttonVariants } from '@/lib/components/ui/button';
     import ModeToggle from '@/lib/components/mode-toggle.svelte';
+    import MainNavbar from '@/lib/components/headers/main-navbar.svelte';
     interface Props extends ParentProps {}
 
     const { auth } = usePage().props;
@@ -12,22 +13,6 @@
 </script>
 
 <IndexLayout>
-    <header
-        class="flex justify-between items-center p-4 bg-card border-b border-muted-foreground"
-    >
-        <Link class="tracking-wide text-3xl font-extrabold">SB</Link>
-        <div class="flex gap-2 items-center">
-            <ModeToggle />
-            {#if auth.user !== null}
-                <LogoutForm className="w-fit mx-auto" />
-            {:else}
-                <Link
-                    href="/auth?tab=login"
-                    class={`w-fit mx-auto ${buttonVariants({ size: 'lg' })}`}
-                    >Login</Link
-                >
-            {/if}
-        </div>
-    </header>
+    <MainNavbar />
     {@render children()}
 </IndexLayout>

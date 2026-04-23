@@ -56,7 +56,7 @@
 <MainLayout>
     <main class="flex flex-col">
         <Button
-            class="mt-5 ml-10 w-fit mr-auto"
+            class="mt-5 ml-5 w-fit mr-auto px-5"
             size="lg"
             onclick={() => {
                 if (map) {
@@ -90,7 +90,7 @@
                         {flood.description || 'Tidak ada deskripsi'}
                     </span>
                     <img
-                        src={'https://imgs.search.brave.com/dRa4h7ULbtiSUe0nvs0d_an56m5gniWMi7A3jXKwvho/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvNjQ3/MTkyNy9wZXhlbHMt/cGhvdG8tNjQ3MTky/Ny5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA'}
+                        src={flood.image}
                         alt="Gambar banjir"
                         width="1000"
                         height="1000"

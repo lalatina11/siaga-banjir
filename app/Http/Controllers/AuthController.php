@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Laravolt\Avatar\Avatar;
 
 class AuthController extends Controller
 {
@@ -30,12 +30,15 @@ class AuthController extends Controller
             if ($emailTaken > 0) {
                 return redirect()->back()->withErrors('Email sudah digunakan, silahkan ganti');
             }
+            $avatar = new Avatar([]);
+
+            $avatar->create("Mulyono");
 
             User::create([
                 'email' => $validated['email'],
                 'name' => $validated['name'],
                 'password' => $validated['password'],
-                'role' => 'USER',
+                'avatar' => $avatar,
             ]);
 
             $token = Auth::attempt($validated);

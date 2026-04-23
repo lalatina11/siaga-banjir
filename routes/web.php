@@ -20,6 +20,12 @@ Route::middleware(['guest.middleware'])->group(function () {
 
 Route::middleware(['auth.middleware'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/new-flood', [FloodController::class, 'newFloodPage']);
+    Route::prefix('/api')->group(function () {
+        Route::prefix('/flood')->group(function () {
+            Route::post('/create', [FloodController::class, 'store']);
+        });
+    });
 });
 
 Route::prefix('/admin')->middleware(['admin.middleware']);
