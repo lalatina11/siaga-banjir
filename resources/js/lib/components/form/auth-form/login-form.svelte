@@ -107,16 +107,16 @@
                             placeholder="********"
                             type={showPassword ? 'text' : 'password'}
                         />
-                        <InputGroup.Addon align="inline-end">
-                            <InputGroup.Button
-                                onclick={() => (showPassword = !showPassword)}
-                            >
-                                {#if showPassword}
-                                    <EyeOff />
-                                {:else}
-                                    <Eye />
-                                {/if}
-                            </InputGroup.Button>
+                        <InputGroup.Addon
+                            align="inline-end"
+                            class="cursor-pointer"
+                            onclick={() => (showPassword = !showPassword)}
+                        >
+                            {#if showPassword}
+                                <EyeOff />
+                            {:else}
+                                <Eye />
+                            {/if}
                         </InputGroup.Addon>
                     </InputGroup.Root>
 

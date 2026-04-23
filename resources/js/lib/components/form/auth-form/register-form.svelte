@@ -134,16 +134,16 @@
                             placeholder="********"
                             type={showPassword ? 'text' : 'password'}
                         />
-                        <InputGroup.Addon align="inline-end">
-                            <InputGroup.Button
-                                onclick={() => (showPassword = !showPassword)}
-                            >
-                                {#if showPassword}
-                                    <EyeOff />
-                                {:else}
-                                    <Eye />
-                                {/if}
-                            </InputGroup.Button>
+                        <InputGroup.Addon
+                            align="inline-end"
+                            class="cursor-pointer"
+                            onclick={() => (showPassword = !showPassword)}
+                        >
+                            {#if showPassword}
+                                <EyeOff />
+                            {:else}
+                                <Eye />
+                            {/if}
                         </InputGroup.Addon>
                     </InputGroup.Root>
 
@@ -175,18 +175,17 @@
                             placeholder="********"
                             type={showConfirmPassword ? 'text' : 'password'}
                         />
-                        <InputGroup.Addon align="inline-end">
-                            <InputGroup.Button
-                                onclick={() =>
-                                    (showConfirmPassword =
-                                        !showConfirmPassword)}
-                            >
-                                {#if showConfirmPassword}
-                                    <EyeOff />
-                                {:else}
-                                    <Eye />
-                                {/if}
-                            </InputGroup.Button>
+                        <InputGroup.Addon
+                            align="inline-end"
+                            class="cursor-pointer"
+                            onclick={() =>
+                                (showConfirmPassword = !showConfirmPassword)}
+                        >
+                            {#if showConfirmPassword}
+                                <EyeOff />
+                            {:else}
+                                <Eye />
+                            {/if}
                         </InputGroup.Addon>
                     </InputGroup.Root>
                     {#if field.state.meta.errors[0]}
