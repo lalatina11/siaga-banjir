@@ -32,13 +32,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
-            if ($response->getStatusCode() == 404) {
-                return Inertia::render("error/not-found-error");
-            }
-            if (in_array($request->getPathInfo(), ['/register', '/login'])) {
-                return Inertia::render('error/incorrect-auth-path-error', ['path' => $request->getPathInfo()]);
-            }
-            return Inertia::render("error/unexpected-error");
-        });
+        // $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
+        //     if ($response->getStatusCode() == 404) {
+        //         return Inertia::render("error/not-found-error");
+        //     }
+        //     if (in_array($request->getPathInfo(), ['/register', '/login'])) {
+        //         return Inertia::render('error/incorrect-auth-path-error', ['path' => $request->getPathInfo()]);
+        //     }
+        //     $errMessage = $exception->getMessage();
+        //     return Inertia::render("error/unexpected-error", ['error' => $errMessage]);
+        // });
     })->create();
