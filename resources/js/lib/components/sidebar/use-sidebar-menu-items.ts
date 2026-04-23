@@ -19,7 +19,7 @@ const userItems = [
     },
     {
         title: 'Settings',
-        url: '#',
+        url: '/dashboard/setting',
         icon: SettingsIcon,
     },
 ];
@@ -42,7 +42,7 @@ const adminItems = [
     },
     {
         title: 'Settings',
-        url: '#',
+        url: '/dashboard/setting',
         icon: SettingsIcon,
     },
 ];
@@ -64,7 +64,7 @@ const superAdminItems = [
     },
     {
         title: 'Settings',
-        url: '#',
+        url: '/dashboard/setting',
         icon: SettingsIcon,
     },
 ];

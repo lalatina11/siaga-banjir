@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { show } from '@/actions/App/Http/Controllers/FloodController';
-    import MainLayout from '@/layouts/main-layout.svelte';
+    import DashboardLayout from '@/layouts/dashboard-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
     import { Button } from '@/lib/components/ui/button';
     import * as Card from '@/lib/components/ui/card';
@@ -73,7 +72,7 @@
 
 <AppHead title="Ganti Password {auth.user.name}" />
 
-<MainLayout>
+<DashboardLayout>
     <main class="flex justify-center min-h-screen mt-10 p-3">
         <Card.Root class="w-full md:w-sm h-fit">
             <Card.Header>
@@ -253,4 +252,4 @@
             </Card.Footer>
         </Card.Root>
     </main>
-</MainLayout>
+</DashboardLayout>

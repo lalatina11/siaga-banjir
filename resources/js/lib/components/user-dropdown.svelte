@@ -61,7 +61,7 @@
         >
             <DropdownMenu.Item>Dashboard</DropdownMenu.Item>
         </Link>
-        <Link href="/profile">
+        <Link href="/dashboard/profile">
             <DropdownMenu.Item><User /> Profile</DropdownMenu.Item>
         </Link>
         <Link href="/new-flood">

@@ -1,10 +1,12 @@
 <script lang="ts">
-    import AppSidebar from '@/lib/components/sidebar/app-sidebar.svelte';
+    import DashboardSidebar from '@/lib/components/sidebar/dashboard-sidebar.svelte';
     import * as Sidebar from '@/lib/components/ui/sidebar';
     import { roleToIndonesianLang } from '@/lib/helpers';
     import { usePage } from '@inertiajs/svelte';
     import type { Snippet } from 'svelte';
     import IndexLayout from './index-layout.svelte';
+    import ModeToggle from '@/lib/components/mode-toggle.svelte';
+    import UserDropdown from '@/lib/components/user-dropdown.svelte';
     interface Props {
         children: Snippet<[]>;
     }
@@ -14,7 +16,7 @@
 
 <IndexLayout>
     <Sidebar.Provider>
-        <AppSidebar />
+        <DashboardSidebar />
         <main class="flex flex-col min-h-screen w-full">
             <header class="p-4 bg-card flex justify-between">
                 <div class="flex gap-2 items-center">
@@ -28,6 +30,10 @@
                     {:else}
                         <span>Dashboard</span>
                     {/if}
+                </div>
+                <div class="flex gap-2 items-center">
+                    <ModeToggle />
+                    <UserDropdown />
                 </div>
             </header>
             <section class="p-4 flex-1">

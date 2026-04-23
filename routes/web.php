@@ -23,17 +23,19 @@ Route::middleware(['guest.middleware'])->group(function () {
 Route::middleware(['auth.middleware'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/new-flood', [FloodController::class, 'newFloodPage']);
-    Route::prefix('/profile')->group(function () {
-
-        Route::get('/', [AuthController::class, 'showProfilePage']);
-        Route::get('/update-password', [AuthController::class, 'showUpdatePassword']);
-    });
     Route::prefix('/dashboard')->group(function () {
+        Route::prefix('/profile')->group(function () {
+            Route::get('/', [AuthController::class, 'showProfilePage']);
+            Route::get('/update-password', [AuthController::class, 'showUpdatePassword']);
+        });
         Route::middleware('user.middleware')->group(function () {
             Route::get('/', [UserDashboardController::class, 'index']);
         });
         Route::prefix('/admin')->middleware('admin.middleware')->group(function () {
             Route::get('/', [AdminDashboardController::class, 'index']);
+        });
+        Route::get('/setting', function () {
+            return Inertia::render('dashboard/setting');
         });
     });
     Route::prefix('/api')->group(function () {

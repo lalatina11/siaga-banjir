@@ -1,5 +1,5 @@
 <script lang="ts">
-    import MainLayout from '@/layouts/main-layout.svelte';
+    import DashboardLayout from '@/layouts/dashboard-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
     import { Button, buttonVariants } from '@/lib/components/ui/button';
     import * as Card from '@/lib/components/ui/card';
@@ -62,7 +62,7 @@
 
 <AppHead title="Profile {auth.user.name}" />
 
-<MainLayout>
+<DashboardLayout>
     <main class="flex justify-center min-h-screen mt-10 p-3">
         <Card.Root class="w-full md:w-sm h-fit">
             <Card.Header>
@@ -197,7 +197,7 @@
                 </Button>
                 <span
                     >Untuk update password bisa <Link
-                        href="/profile/update-password"
+                        href="/dashboard/profile/update-password"
                         class={buttonVariants({ variant: 'link' })}
                         >klik disini</Link
                     ></span
@@ -205,4 +205,4 @@
             </Card.Footer>
         </Card.Root>
     </main>
-</MainLayout>
+</DashboardLayout>
