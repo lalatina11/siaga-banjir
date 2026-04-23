@@ -26,9 +26,17 @@
 <AppHead title={!isLoginPage ? 'Daftar' : 'Masuk'} />
 
 <AuthLayout>
-    <main>
-        <section class="w-full flex justify-center items-center">
-            <Card.Root class="w-sm mx-auto mt-20">
+    <main class="flex h-screen justify-center items-center">
+        <section class="w-full grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <div
+                class="w-sm ml-auto hidden lg:flex flex-col gap-3 text-5xl justify-center items-center font-extrabold rounded-l-md bg-card ring ring-foreground/10"
+            >
+                <h1>Siaga</h1>
+                <h1>Banjir</h1>
+            </div>
+            <Card.Root
+                class="w-sm mx-auto lg:mx-0 lg:rounded-l-none lg:rounded-r-md"
+            >
                 <Card.Header
                     class="flex flex-row justify-between items-center w-full"
                 >
@@ -51,7 +59,7 @@
                         <RegisterForm />
                     {/if}
                 </Card.Content>
-                <Card.Footer>
+                <Card.Footer class="lg:rounded-none lg:rounded-br-md">
                     <span
                         >{isLoginPage
                             ? 'Belum Punya akun?'
