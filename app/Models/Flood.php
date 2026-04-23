@@ -12,9 +12,7 @@ class Flood extends Model
     /** @use HasFactory<\Database\Factories\FloodFactory> */
     use HasFactory;
 
-    // #[Fillable()]
-
-    protected $fillable = ['description', 'lat', 'lng', 'image', 'status', 'province', 'regency', 'district', 'village', 'image_storage_url', 'user_id'];
+    #[Fillable(['description', 'lat', 'lng', 'image', 'status', 'province', 'regency', 'district', 'village', 'image_storage_url', 'user_id'])]
 
     protected function casts()
     {

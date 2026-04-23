@@ -61,6 +61,9 @@
         >
             <DropdownMenu.Item>Dashboard</DropdownMenu.Item>
         </Link>
+        <Link href="/profile">
+            <DropdownMenu.Item><User /> Profile</DropdownMenu.Item>
+        </Link>
         <Link href="/new-flood">
             <DropdownMenu.Item><Plus /> Lapor Banjir</DropdownMenu.Item>
         </Link>

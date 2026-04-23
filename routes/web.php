@@ -23,6 +23,11 @@ Route::middleware(['guest.middleware'])->group(function () {
 Route::middleware(['auth.middleware'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/new-flood', [FloodController::class, 'newFloodPage']);
+    Route::prefix('/profile')->group(function () {
+
+        Route::get('/', [AuthController::class, 'showProfilePage']);
+        Route::get('/update-password', [AuthController::class, 'showUpdatePassword']);
+    });
     Route::prefix('/dashboard')->group(function () {
         Route::middleware('user.middleware')->group(function () {
             Route::get('/', [UserDashboardController::class, 'index']);
@@ -36,7 +41,9 @@ Route::middleware(['auth.middleware'])->group(function () {
             Route::post('/create', [FloodController::class, 'store']);
             Route::post('/accept/{id}', [FloodController::class, 'accept'])->middleware('dual-admin.middleware');
         });
-    });
+        Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+        Route::post('/update-password', [AuthController::class, 'updatePassword']);
+    })->middleware('auth.middleware');
 });
 
 Route::prefix('/admin')->middleware(['admin.middleware']);
