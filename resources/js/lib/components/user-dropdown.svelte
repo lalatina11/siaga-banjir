@@ -46,12 +46,24 @@
             </Avatar.Fallback>
         </Avatar.Root>
     </DropdownMenu.Trigger>
-    <DropdownMenu.Content class="w-[300px]">
+    <DropdownMenu.Content class="w-[300px] z-30">
+        <div class="flex flex-col justify-center items-center my-2">
+            <Avatar.Root class="mb-2">
+                <Avatar.Image src={auth.user.avatar} />
+                <Avatar.Fallback>
+                    <User />
+                </Avatar.Fallback>
+            </Avatar.Root>
+            <span class="text-sm">{auth.user.name}</span>
+            <span class="text-sm text-muted-foreground">{auth.user.email}</span>
+        </div>
+        <DropdownMenu.Separator />
         <DropdownMenu.Label
             >Login sebagai: {roleToIndonesianLang(
                 auth.user.role,
             )}</DropdownMenu.Label
         >
+        <DropdownMenu.Separator />
         <Link
             href="/dashboard/{auth.user.role === 'SUPERADMIN'
                 ? 'superadmin'

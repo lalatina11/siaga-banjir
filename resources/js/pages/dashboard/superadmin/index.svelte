@@ -51,7 +51,7 @@
     );
 </script>
 
-<AppHead title="Dashboard User " />
+<AppHead title="Dashboard Superadmin" />
 
 <DashboardLayout>
     <main class="flex flex-col gap-3">

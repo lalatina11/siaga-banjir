@@ -1,12 +1,13 @@
 <script lang="ts">
     import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-    import { usePage } from '@inertiajs/svelte';
+    import { Link, usePage } from '@inertiajs/svelte';
     import { useSidebarMenuItems } from './use-sidebar-menu-items';
 
     const props = usePage().props;
 
     // Menu items.
     const items = useSidebarMenuItems(props.auth.user.role);
+    const pathname = $derived(window.location.pathname);
 </script>
 
 <Sidebar.Root collapsible="icon">
@@ -17,12 +18,16 @@
                 <Sidebar.Menu>
                     {#each items as item (item.title)}
                         <Sidebar.MenuItem>
-                            <Sidebar.MenuButton>
+                            <Sidebar.MenuButton
+                                variant={item.url === pathname
+                                    ? 'outline'
+                                    : 'default'}
+                            >
                                 {#snippet child({ props })}
-                                    <a href={item.url} {...props}>
+                                    <Link href={item.url} {...props}>
                                         <item.icon />
                                         <span>{item.title}</span>
-                                    </a>
+                                    </Link>
                                 {/snippet}
                             </Sidebar.MenuButton>
                         </Sidebar.MenuItem>

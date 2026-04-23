@@ -94,7 +94,7 @@
 <div class="flex flex-col gap-3 justify-center items-center">
     <div
         bind:this={mapElement}
-        class="map w-full md:w-sm mx-auto aspect-square rounded-md"
+        class="map w-full md:w-sm mx-auto aspect-square rounded-md z-10"
     ></div>
 
     <!-- Tombol GPS di atas peta -->
@@ -124,6 +124,7 @@
     .map {
         height: 350px;
         width: 350px;
+        z-index: 10;
     }
     @media (min-width: 768px) {
         .map {
