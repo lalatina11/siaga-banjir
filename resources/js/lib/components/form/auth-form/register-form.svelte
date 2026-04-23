@@ -53,6 +53,7 @@
 </script>
 
 <form
+    class="flex w-full"
     onsubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();

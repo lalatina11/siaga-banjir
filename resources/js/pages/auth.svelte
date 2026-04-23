@@ -31,8 +31,13 @@
             <div
                 class="w-sm ml-auto hidden lg:flex flex-col gap-3 text-5xl justify-center items-center font-extrabold rounded-l-md bg-card ring ring-foreground/10"
             >
-                <h1>Siaga</h1>
-                <h1>Banjir</h1>
+                <img
+                    width="700"
+                    height="700"
+                    class="w-full h-auto"
+                    src="/logo.png"
+                    alt="..."
+                />
             </div>
             <Card.Root
                 class="w-sm mx-auto lg:mx-0 lg:rounded-l-none lg:rounded-r-md"
@@ -52,7 +57,7 @@
                     </Card.Header>
                     <ModeToggle />
                 </Card.Header>
-                <Card.Content>
+                <Card.Content class="flex-1 flex justify-center items-center">
                     {#if isLoginPage}
                         <LoginForm />
                     {:else}
