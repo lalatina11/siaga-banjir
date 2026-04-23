@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FloodController;
+use App\Http\Controllers\SuperAdminDashboardController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,10 @@ Route::middleware(['auth.middleware'])->group(function () {
         });
         Route::prefix('/admin')->middleware('admin.middleware')->group(function () {
             Route::get('/', [AdminDashboardController::class, 'index']);
+        });
+        Route::prefix('/superadmin')->middleware('super.admin.middleware')->group(function () {
+            Route::get('/', [SuperAdminDashboardController::class, 'index']);
+            Route::get('/master-data', [SuperAdminDashboardController::class, 'showMasterDataPage']);
         });
         Route::get('/setting', function () {
             return Inertia::render('dashboard/setting');

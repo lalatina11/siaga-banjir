@@ -18,7 +18,7 @@ class SuperAdminMiddleware
         if ($request->user() == null) {
             return redirect()->route("home");
         }
-        if ($request->user()->role != "ADMIN") {
+        if ($request->user()->role != "SUPERADMIN") {
             return redirect()->route("home");
         }
 

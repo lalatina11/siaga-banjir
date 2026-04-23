@@ -9,7 +9,7 @@
     const items = useSidebarMenuItems(props.auth.user.role);
 </script>
 
-<Sidebar.Root>
+<Sidebar.Root collapsible="icon">
     <Sidebar.Content>
         <Sidebar.Group>
             <Sidebar.GroupLabel>Application</Sidebar.GroupLabel>

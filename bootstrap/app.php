@@ -26,16 +26,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
-        ])->alias([
-                    "auth.middleware" => AuthMiddleware::class,
-                    "user.middleware" => UserMiddleware::class,
-                    "guest.middleware" => GuestMiddleware::class,
-                    "admin.middleware" => AdminMiddleware::class,
-                    "dual-admin.middleware" => DualAdminMiddleware::class,
-                    "super.admin.middleware" => SuperAdminMiddleware::class,
-                ]);
-    })
-    ->withExceptions(function (Exceptions $exceptions): void {
+        ]);
+        $middleware->alias([
+            "auth.middleware" => AuthMiddleware::class,
+            "user.middleware" => UserMiddleware::class,
+            "guest.middleware" => GuestMiddleware::class,
+            "admin.middleware" => AdminMiddleware::class,
+            "dual-admin.middleware" => DualAdminMiddleware::class,
+            "super.admin.middleware" => SuperAdminMiddleware::class,
+        ]);
+        $middleware->encryptCookies(['sidebar:state']);
+    })->withExceptions(function (Exceptions $exceptions): void {
         // $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
         //     if ($response->getStatusCode() == 404) {
         //         return Inertia::render("error/not-found-error");

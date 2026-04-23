@@ -1,5 +1,10 @@
 import type { User } from '@/types';
-import { HouseIcon, LayoutDashboard, User as UserIcon } from '@lucide/svelte';
+import {
+    DatabaseZap,
+    HouseIcon,
+    LayoutDashboard,
+    User as UserIcon,
+} from '@lucide/svelte';
 import SettingsIcon from '@lucide/svelte/icons/settings';
 const userItems = [
     {
@@ -17,6 +22,7 @@ const userItems = [
         url: '/dashboard/profile',
         icon: UserIcon,
     },
+
     {
         title: 'Settings',
         url: '/dashboard/setting',
@@ -61,6 +67,11 @@ const superAdminItems = [
         title: 'Profile',
         url: '/dashboard/profile',
         icon: UserIcon,
+    },
+    {
+        title: 'Master Data',
+        url: '/dashboard/superadmin/master-data',
+        icon: DatabaseZap,
     },
     {
         title: 'Settings',

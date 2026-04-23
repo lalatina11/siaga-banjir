@@ -24,7 +24,9 @@ export interface FloodWithUser extends Flood {
     user?: User;
 }
 
-export type PageProps = ReturnType<typeof usePage>['props'];
+export type PageProps = ReturnType<typeof usePage>['props'] & {
+    sidebar_state?: 'true' | 'false';
+};
 
 export type DefaultPageProps = PageProps;
 

@@ -7,15 +7,16 @@
     import IndexLayout from './index-layout.svelte';
     import ModeToggle from '@/lib/components/mode-toggle.svelte';
     import UserDropdown from '@/lib/components/user-dropdown.svelte';
+    import type { DefaultPageProps } from '@/lib/types';
     interface Props {
         children: Snippet<[]>;
     }
     const { children }: Props = $props();
-    const pageProps = usePage().props;
+    const pageProps = usePage().props as DefaultPageProps;
 </script>
 
 <IndexLayout>
-    <Sidebar.Provider>
+    <Sidebar.Provider open={pageProps.sidebar_state !== 'false'}>
         <DashboardSidebar />
         <main class="flex flex-col min-h-screen w-full">
             <header class="p-4 bg-card flex justify-between">

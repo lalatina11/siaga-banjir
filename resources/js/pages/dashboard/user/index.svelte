@@ -5,7 +5,6 @@
     import { Button } from '@/lib/components/ui/button';
     import * as ButtonGroup from '@/lib/components/ui/button-group';
     import * as InputGroup from '@/lib/components/ui/input-group';
-    import * as Sidebar from '@/lib/components/ui/sidebar';
     import { floodFilterCapitalize } from '@/lib/helpers';
     import type {
         AllowedFloodFilter,
