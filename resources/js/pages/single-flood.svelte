@@ -1,5 +1,5 @@
 <script lang="ts">
-    import AppHead from '@/components/AppHead.svelte';
+    import AppHead from '@/lib/components/AppHead.svelte';
     import MainLayout from '@/layouts/main-layout.svelte';
     import * as Avatar from '@/lib/components/ui/avatar';
     import { Button } from '@/lib/components/ui/button';
@@ -10,12 +10,15 @@
     import { type MapOptions } from 'leaflet';
     import 'leaflet/dist/leaflet.css';
     import { onDestroy, onMount } from 'svelte';
+    import AcceptFlood from '@/lib/components/form/flood-form/accept-flood.svelte';
 
     interface PageProps extends DefaultPageProps {
         flood: Flood;
     }
 
-    const { flood } = usePage().props as PageProps;
+    const { flood, auth } = usePage().props as PageProps;
+
+    const isAdmin = $derived(auth.user.role !== 'USER');
 
     let mapElement: HTMLElement;
     let map: any;
@@ -106,17 +109,33 @@
                 <Card.Content
                     class="w-full overflow-hidden aspect-square flex justify-center items-center"
                 >
-                    <div bind:this={mapElement} class="map rounded-md"></div>
+                    <div
+                        bind:this={mapElement}
+                        class="map rounded-md z-10"
+                    ></div>
                 </Card.Content>
                 <Card.Footer class="w-full">
-                    <Button
-                        class="ml-auto"
-                        size="lg"
-                        onclick={() => {
-                            const url = `https://www.google.com/maps?q=${flood.lat},${flood.lng}`;
-                            window.open(url, '_blank');
-                        }}>Lihat di Maps</Button
-                    >
+                    {#if flood.status === 'PENDING' && isAdmin}
+                        <div class="flex gap-2 w-fit ml-auto items-center">
+                            <AcceptFlood floodId={flood.id} />
+                            <Button
+                                size="lg"
+                                onclick={() => {
+                                    const url = `https://www.google.com/maps?q=${flood.lat},${flood.lng}`;
+                                    window.open(url, '_blank');
+                                }}>Lihat di Maps</Button
+                            >
+                        </div>
+                    {:else}
+                        <Button
+                            class="ml-auto"
+                            size="lg"
+                            onclick={() => {
+                                const url = `https://www.google.com/maps?q=${flood.lat},${flood.lng}`;
+                                window.open(url, '_blank');
+                            }}>Lihat di Maps</Button
+                        >
+                    {/if}
                 </Card.Footer>
             </Card.Root>
         </section>
@@ -127,5 +146,6 @@
     .map {
         height: 500px;
         width: 500px;
+        z-index: 10;
     }
 </style>

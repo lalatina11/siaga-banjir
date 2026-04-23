@@ -34,3 +34,5 @@ export type UploadedFile = File & {
     uploadedAt: number;
     url: Promise<string>;
 };
+
+export type AllowedFloodFilter = FloodStatus | 'ALL';

@@ -14,7 +14,7 @@ class FloodController extends Controller
     private function getFloodbyId($id)
     {
         try {
-            $flood = Flood::where('id', $id)->first();
+            $flood = Flood::where('id', $id)->with(['user'])->first();
             if ($flood != null) {
                 return $flood;
             }
@@ -26,8 +26,6 @@ class FloodController extends Controller
     public function index()
     {
         $floods = Flood::where('status', '!=', 'PENDING')->with('user')->orderBy('updated_at', 'desc')->get();
-        $avatar = new Avatar([]);
-
         return Inertia::render('home', ['floods' => $floods]);
     }
 
@@ -36,6 +34,9 @@ class FloodController extends Controller
         $flood = $this->getFloodbyId($id);
         if ($flood == null) {
             return Inertia::render('error/not-found-error');
+        }
+        if ($flood->status === "PENDING" && request()->user()->role === "USER") {
+            return redirect()->route('home');
         }
         return Inertia::render('single-flood', ['flood' => $flood]);
     }
@@ -116,6 +117,24 @@ class FloodController extends Controller
 
             Flood::create($validated);
             return redirect()->route('home');
+        } catch (\Throwable $err) {
+            if (config('app.debug')) {
+                return redirect()->back()->withErrors($err->getMessage());
+            }
+
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
+        }
+    }
+
+    public function accept($id)
+    {
+        try {
+            $flood = $this->getFloodbyId($id);
+            if ($flood != null) {
+                $flood->update(['status' => 'NEW']);
+                return redirect()->back();
+            }
+            return redirect()->back()->withErrors('Gagal update laporan banjir');
         } catch (\Throwable $err) {
             if (config('app.debug')) {
                 return redirect()->back()->withErrors($err->getMessage());

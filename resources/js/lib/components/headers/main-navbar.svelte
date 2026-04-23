@@ -4,6 +4,7 @@
     import LogoutForm from '../form/auth-form/logout-form.svelte';
     import { buttonVariants } from '../ui/button';
     import FloodDropdown from '../flood-dropdown.svelte';
+    import UserDropdown from '../user-dropdown.svelte';
     const { auth } = usePage().props;
 </script>
 
@@ -14,8 +15,7 @@
     <div class="flex gap-2 items-center">
         <ModeToggle />
         {#if auth.user !== null}
-            <FloodDropdown />
-            <LogoutForm className="w-fit mx-auto" />
+            <UserDropdown />
         {:else}
             <Link
                 href="/auth?tab=login"

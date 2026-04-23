@@ -1,5 +1,5 @@
 <script>
-    import AppHead from '@/components/AppHead.svelte';
+    import AppHead from '@/lib/components/AppHead.svelte';
     import IndexLayout from '@/layouts/index-layout.svelte';
     import { buttonVariants } from '@/lib/components/ui/button';
     import { Link } from '@inertiajs/svelte';

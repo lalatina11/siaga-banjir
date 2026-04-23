@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { AllowedFloodFilter } from '../types';
 
 export const allowedFloodStatus = [
     'PENDING',
@@ -7,6 +8,11 @@ export const allowedFloodStatus = [
     'AID_ARRIVED',
     'RESOLVE',
 ] as const;
+
+export const allowedFloodFilters = [
+    'ALL',
+    ...allowedFloodStatus,
+] satisfies Array<AllowedFloodFilter>;
 
 export const floodSchema = z.object({
     description: z.string(),

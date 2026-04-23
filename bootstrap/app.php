@@ -3,9 +3,11 @@
 use App\Http\Controllers\PageErrorController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\DualAdminMiddleware;
 use App\Http\Middleware\GuestMiddleware;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SuperAdminMiddleware;
+use App\Http\Middleware\UserMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,8 +28,10 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ])->alias([
                     "auth.middleware" => AuthMiddleware::class,
+                    "user.middleware" => UserMiddleware::class,
                     "guest.middleware" => GuestMiddleware::class,
                     "admin.middleware" => AdminMiddleware::class,
+                    "dual-admin.middleware" => DualAdminMiddleware::class,
                     "super.admin.middleware" => SuperAdminMiddleware::class,
                 ]);
     })

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Flood extends Model
 {
@@ -33,6 +34,18 @@ class Flood extends Model
         return is_null($this->user_id);
     }
 
+    // protected static function boot(): void
+    // {
+    //     parent::boot();
+
+    //     static::creating(function ($flood) {
+    //         // Logika Status: Jika bukan admin (atau role tertentu), status default PENDING
+    //         // Asumsi: request user bisa diakses via app('auth->user()) atau di-set manual
+    //         if (Auth::check() && Auth::user()->role !== 'USER') {
+    //             $flood->status = 'NEW'; // Atau 'NEW' sesuai logika bisnis
+    //         }
+    //     });
+    // }
 
     public static function STATUSES()
     {

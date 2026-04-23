@@ -4,7 +4,7 @@
     import * as Field from '$lib/components/ui/field';
     import ScrollArea from '$lib/components/ui/scroll-area/scroll-area.svelte';
     import { Textarea } from '$lib/components/ui/textarea';
-    import AppHead from '@/components/AppHead.svelte';
+    import AppHead from '@/lib/components/AppHead.svelte';
     import { createForm } from '@tanstack/svelte-form';
     import { toast } from 'svelte-sonner';
     import z from 'zod';

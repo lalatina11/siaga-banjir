@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FloodController;
+use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,9 +23,18 @@ Route::middleware(['guest.middleware'])->group(function () {
 Route::middleware(['auth.middleware'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/new-flood', [FloodController::class, 'newFloodPage']);
+    Route::prefix('/dashboard')->group(function () {
+        Route::middleware('user.middleware')->group(function () {
+            Route::get('/', [UserDashboardController::class, 'index']);
+        });
+        Route::prefix('/admin')->middleware('admin.middleware')->group(function () {
+            Route::get('/', [AdminDashboardController::class, 'index']);
+        });
+    });
     Route::prefix('/api')->group(function () {
         Route::prefix('/flood')->group(function () {
             Route::post('/create', [FloodController::class, 'store']);
+            Route::post('/accept/{id}', [FloodController::class, 'accept'])->middleware('dual-admin.middleware');
         });
     });
 });

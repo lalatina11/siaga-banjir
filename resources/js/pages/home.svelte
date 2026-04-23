@@ -1,15 +1,17 @@
 <script lang="ts">
-    import AppHead from '@/components/AppHead.svelte';
     import MainLayout from '@/layouts/main-layout.svelte';
-    import * as Avatar from '@/lib/components/ui/avatar';
-    import { buttonVariants } from '@/lib/components/ui/button';
-    import * as Card from '@/lib/components/ui/card';
+    import AppHead from '@/lib/components/AppHead.svelte';
+    import FloodCard from '@/lib/components/floods/flood-card.svelte';
+    import { Button } from '@/lib/components/ui/button';
+    import * as ButtonGroup from '@/lib/components/ui/button-group';
+    import { floodFilterCapitalize } from '@/lib/helpers';
     import type {
+        AllowedFloodFilter,
         PageProps as DefaultPageProps,
         FloodWithUser,
     } from '@/lib/types';
-    import { Link, usePage } from '@inertiajs/svelte';
-    import { HatGlasses, User as UserIcon } from '@lucide/svelte';
+    import { allowedFloodFilters } from '@/lib/validations/flood-validations';
+    import { usePage } from '@inertiajs/svelte';
 
     interface PageProps extends DefaultPageProps {
         floods: Array<FloodWithUser>;
@@ -17,66 +19,36 @@
     }
 
     const { floods, avatar, ...props } = usePage().props as PageProps;
-    console.log({ floods });
+    const floodFilters = allowedFloodFilters.filter((st) => st !== 'PENDING');
+    let activeFilter = $state(floodFilters[0]);
+    let filteredFloods = $derived(
+        activeFilter === 'ALL'
+            ? floods
+            : floods.filter((fl) => fl.status === activeFilter),
+    );
+
+    const handleFilter = (filter: (typeof floodFilters)[number]) => {
+        activeFilter = filter;
+    };
 </script>
 
 <AppHead title="Home" />
 <MainLayout>
+    <div class="p-4 flex gap-2 items-center">
+        <span class="font-semibold">Filter:</span>
+        <ButtonGroup.Root>
+            {#each floodFilters as filter (filter)}
+                <Button
+                    variant={filter === activeFilter ? 'default' : 'outline'}
+                    onclick={() => handleFilter(filter)}
+                    size="lg">{floodFilterCapitalize(filter)}</Button
+                >
+            {/each}
+        </ButtonGroup.Root>
+    </div>
     <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 gap-3">
-        {#each floods as flood (flood.id)}
-            <Card.Root>
-                {#if flood.user}
-                    <Card.Header class="flex flex-row gap-3 items-center">
-                        <Avatar.Root>
-                            <Avatar.Image src={flood.user.avatar} />
-                            <Avatar.Fallback>
-                                <UserIcon />
-                            </Avatar.Fallback>
-                        </Avatar.Root>
-                        <div class="flex flex-col gap-0">
-                            <Card.Title class="text-sm"
-                                >{flood.user.name}</Card.Title
-                            >
-                            <!-- <Card.Description class="text-xs"
-                                >{flood.user.created_at}</Card.Description
-                            > -->
-                        </div>
-                    </Card.Header>
-                {:else}
-                    <Card.Header class="flex flex-row gap-3 items-center">
-                        <Avatar.Root>
-                            <!-- <Avatar.Image src={avatar} /> -->
-                            <Avatar.Fallback>
-                                <!-- <User /> -->
-                                <HatGlasses />
-                            </Avatar.Fallback>
-                        </Avatar.Root>
-                        <div class="flex flex-col gap-0">
-                            <Card.Title class="text-sm">anonymous</Card.Title>
-                            <Card.Description class="text-xs"
-                                >anonymous@anon.com</Card.Description
-                            >
-                        </div>
-                    </Card.Header>
-                {/if}
-                <Card.Content class="flex flex-col gap-3 flex-1">
-                    <span class="flex-1">
-                        {flood.description || 'Tidak ada deskripsi'}
-                    </span>
-                    <img
-                        src={flood.image}
-                        alt="Gambar banjir"
-                        class="w-full aspect-square object-cover rounded-md"
-                    />
-                </Card.Content>
-                <Card.Footer>
-                    <Link
-                        href={`/flood/${flood.id}`}
-                        class={`ml-auto ${buttonVariants({ size: 'lg' })}`}
-                        >Lihat Selengkapnya</Link
-                    >
-                </Card.Footer>
-            </Card.Root>
+        {#each filteredFloods as flood (flood.id)}
+            <FloodCard {flood} />
         {/each}
     </main>
 </MainLayout>

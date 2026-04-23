@@ -1,5 +1,5 @@
 <script lang="ts">
-    import AppHead from '@/components/AppHead.svelte';
+    import AppHead from '@/lib/components/AppHead.svelte';
     import AuthLayout from '@/layouts/auth-layout.svelte';
     import LoginForm from '@/lib/components/form/auth-form/login-form.svelte';
     import RegisterForm from '@/lib/components/form/auth-form/register-form.svelte';
