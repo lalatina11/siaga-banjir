@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PageErrorController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\DualAdminMiddleware;
@@ -37,14 +36,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->encryptCookies(['sidebar:state']);
     })->withExceptions(function (Exceptions $exceptions): void {
-        // $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
-        //     if ($response->getStatusCode() == 404) {
-        //         return Inertia::render("error/not-found-error");
-        //     }
-        //     if (in_array($request->getPathInfo(), ['/register', '/login'])) {
-        //         return Inertia::render('error/incorrect-auth-path-error', ['path' => $request->getPathInfo()]);
-        //     }
-        //     $errMessage = $exception->getMessage();
-        //     return Inertia::render("error/unexpected-error", ['error' => $errMessage]);
-        // });
+        $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
+            if ($response->getStatusCode() == 404) {
+                return Inertia::render("error/not-found-error");
+            }
+            if (in_array($request->getPathInfo(), ['/register', '/login'])) {
+                return Inertia::render('error/incorrect-auth-path-error', ['path' => $request->getPathInfo()]);
+            }
+            $errMessage = $exception->getMessage();
+            return Inertia::render("error/unexpected-error", ['error' => $errMessage]);
+        });
     })->create();

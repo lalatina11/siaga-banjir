@@ -10,7 +10,7 @@
 <IndexLayout>
     <main class="flex min-h-screen justify-center items-center flex-col gap-3">
         <h1 class="text-3xl font-bold">404</h1>
-        <h2 class="text-2xl font-semibold">Not Found</h2>
+        <h2 class="text-2xl font-extrabold">Not Found</h2>
         <Link class={buttonVariants({ size: 'lg' })} href="/"
             >Kembali ke Halaman Utama</Link
         >
