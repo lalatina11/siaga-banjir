@@ -30,6 +30,15 @@ class User extends Authenticatable
         ];
     }
 
+    public static function ALLOWED_ROLE()
+    {
+        return ['USER', 'ADMIN', 'SUPERADMIN'];
+    }
+    public static function ROLE_EXCLUDE_SUPERADMIN()
+    {
+        return ['USER', 'ADMIN',];
+    }
+
     public function floods()
     {
         return $this->hasMany(Flood::class, 'user_id');

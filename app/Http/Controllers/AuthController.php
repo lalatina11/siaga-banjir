@@ -13,6 +13,12 @@ use Laravolt\Avatar\Avatar;
 
 class AuthController extends Controller
 {
+    protected $userController;
+
+    public function __construct(UserController $userController)
+    {
+        $this->userController = $userController;
+    }
     public function register(Request $request)
     {
         try {
@@ -49,16 +55,12 @@ class AuthController extends Controller
             if ($emailTaken > 0) {
                 return redirect()->back()->withErrors('Email sudah digunakan, silahkan ganti');
             }
-            $avatar = new Avatar([]);
 
-            $avatar->create("Mulyono");
+            $email = $validated['email'];
+            $name = $validated['name'];
+            $password = $validated['password'];
 
-            User::create([
-                'email' => $validated['email'],
-                'name' => $validated['name'],
-                'password' => $validated['password'],
-                'avatar' => $avatar,
-            ]);
+            $this->userController->createUser($name, $email, $password);
 
             $token = Auth::attempt($validated);
 

@@ -1,6 +1,7 @@
 <script lang="ts">
     import DashboardLayout from '@/layouts/dashboard-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
+    import CreateUser from '@/lib/components/form/superadmin-form/create-user.svelte';
     import * as ButtonGroup from '@/lib/components/ui/button-group';
     import Button from '@/lib/components/ui/button/button.svelte';
     import * as InputGroup from '@/lib/components/ui/input-group';
@@ -9,21 +10,26 @@
     import type { DefaultPageProps } from '@/lib/types';
     import type { User } from '@/types';
     import { usePage } from '@inertiajs/svelte';
-    import { Plus, Search } from '@lucide/svelte';
+    import { Search } from '@lucide/svelte';
 
     interface Props extends DefaultPageProps {
         users: Array<User>;
     }
 
-    const filterUserByRole = ['ALL', 'USER', 'ADMIN'] as const satisfies Array<
-        User['role'] | 'ALL'
-    >;
+    const filterUserByRole = [
+        'ALL',
+        'USER',
+        'ADMIN',
+        'SUPERADMIN',
+    ] as const satisfies Array<User['role'] | 'ALL'>;
 
     let activeFilter = $state<(typeof filterUserByRole)[number]>(
         filterUserByRole[0],
     );
 
-    const { users: unfilteredUser } = usePage().props as Props;
+    const props = usePage().props as Props;
+
+    let unfilteredUser = $derived(props.users);
 
     let search = $state('');
 
@@ -73,7 +79,7 @@
                     <Search />
                 </InputGroup.Addon>
             </InputGroup.Root>
-            <Button class="w-fit" size="lg"><Plus /> Tambah User</Button>
+            <CreateUser bind:users={unfilteredUser} />
         </section>
         <UserTable {users} />
     </main>

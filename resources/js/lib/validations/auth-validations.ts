@@ -1,4 +1,11 @@
+import type { User } from '@/types';
 import z from 'zod';
+
+export const allowedUserRole = [
+    'USER',
+    'ADMIN',
+    'SUPERADMIN',
+] as const as Array<User['role']>;
 
 export const registerSchema = z
     .object({

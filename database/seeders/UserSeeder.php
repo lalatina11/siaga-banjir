@@ -31,5 +31,6 @@ class UserSeeder extends Seeder
                 'password' => 'password'
             ],
         )->create();
+        User::factory()->count(50)->create();
     }
 }

@@ -2,7 +2,13 @@
     import * as Table from '$lib/components/ui/table';
     import { capitalizeFirstLetter } from '@/lib/helpers';
     import type { User } from '@/types';
-    import { Pencil, Trash, User as UserIcon } from '@lucide/svelte';
+    import {
+        Pencil,
+        Shield,
+        ShieldCogCorner,
+        Trash,
+        User as UserIcon,
+    } from '@lucide/svelte';
     import * as Avatar from '../ui/avatar';
     import { Button } from '../ui/button';
     import UserAvatar from './user-avatar.svelte';
@@ -23,7 +29,7 @@
                 <Table.Head>Avatar</Table.Head>
                 <Table.Head>Nama</Table.Head>
                 <Table.Head>Email</Table.Head>
-                <Table.Head>Amount</Table.Head>
+                <Table.Head>Role</Table.Head>
                 <Table.Head>Aksi</Table.Head>
             </Table.Row>
         </Table.Header>
@@ -36,7 +42,18 @@
                     </Table.Cell>
                     <Table.Cell>{user.name}</Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
-                    <Table.Cell>{capitalizeFirstLetter(user.role)}</Table.Cell>
+                    <Table.Cell>
+                        <div class="flex gap-2 items-center">
+                            {#if user.role === 'USER'}
+                                <UserIcon class="size-4" />
+                            {:else}
+                                <ShieldCogCorner class="size-4" />
+                            {/if}
+                            <span>
+                                {capitalizeFirstLetter(user.role)}
+                            </span>
+                        </div>
+                    </Table.Cell>
                     <Table.Cell>
                         <Button variant="outline"
                             ><Pencil />

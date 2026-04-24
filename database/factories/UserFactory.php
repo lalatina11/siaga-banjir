@@ -25,14 +25,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $name = fake()->name();
+        $name = fake()->unique()->name();
         $avatar = new Avatar([]);
         $avatar->create($name)->toBase64();
+        $allowedRole = User::ROLE_EXCLUDE_SUPERADMIN();
         return [
             'name' => $name,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'avatar' => $avatar,
+            'role' => fake()->randomElement($allowedRole),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

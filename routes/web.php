@@ -50,6 +50,9 @@ Route::middleware(['auth.middleware'])->group(function () {
         });
         Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         Route::post('/update-password', [AuthController::class, 'updatePassword']);
+        Route::prefix('/superadmin')->group(function () {
+            Route::post('/create-user', [SuperAdminDashboardController::class, 'createUserBySuperadmin']);
+        });
     })->middleware('auth.middleware');
 });
 
