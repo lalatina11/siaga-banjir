@@ -1,24 +1,32 @@
 <script lang="ts">
-    import AppHead from '@/lib/components/AppHead.svelte';
     import MainLayout from '@/layouts/main-layout.svelte';
+    import AppHead from '@/lib/components/AppHead.svelte';
+    import AcceptFlood from '@/lib/components/form/flood-form/accept-flood.svelte';
+    import FloodAidTable from '@/lib/components/form/flood-form/flood-aid-table.svelte';
+    import SendAid from '@/lib/components/form/flood-form/send-aid.svelte';
     import * as Avatar from '@/lib/components/ui/avatar';
     import { Button } from '@/lib/components/ui/button';
     import * as Card from '@/lib/components/ui/card';
-    import type { PageProps as DefaultPageProps, Flood } from '@/lib/types';
+    import { useRoleBasedPermission } from '@/lib/helpers/role-and-access';
+    import type {
+        PageProps as DefaultPageProps,
+        FloodAndAid,
+    } from '@/lib/types';
     import { usePage } from '@inertiajs/svelte';
     import { ArrowLeft, HatGlasses } from '@lucide/svelte';
     import { type MapOptions } from 'leaflet';
     import 'leaflet/dist/leaflet.css';
     import { onDestroy, onMount } from 'svelte';
-    import AcceptFlood from '@/lib/components/form/flood-form/accept-flood.svelte';
 
     interface PageProps extends DefaultPageProps {
-        flood: Flood;
+        flood: FloodAndAid;
     }
 
     const { flood, auth } = usePage().props as PageProps;
 
-    const isAdmin = $derived(auth.user.role !== 'USER');
+    $inspect(flood);
+
+    const permission = useRoleBasedPermission();
 
     let mapElement: HTMLElement;
     let map: any;
@@ -112,31 +120,34 @@
                         class="map rounded-md z-10"
                     ></div>
                 </Card.Content>
-                <Card.Footer class="w-full">
-                    {#if flood.status === 'PENDING' && isAdmin}
+                <Card.Footer class="flex gap-2 justify-end items-end w-full">
+                    {#if flood.status === 'PENDING' && permission.adminOrAbove(auth.user)}
                         <div class="flex gap-2 w-fit ml-auto items-center">
                             <AcceptFlood floodId={flood.id} />
-                            <Button
-                                size="lg"
-                                onclick={() => {
-                                    const url = `https://www.google.com/maps?q=${flood.lat},${flood.lng}`;
-                                    window.open(url, '_blank');
-                                }}>Lihat di Maps</Button
-                            >
                         </div>
-                    {:else}
-                        <Button
-                            class="ml-auto"
-                            size="lg"
-                            onclick={() => {
-                                const url = `https://www.google.com/maps?q=${flood.lat},${flood.lng}`;
-                                window.open(url, '_blank');
-                            }}>Lihat di Maps</Button
-                        >
+                    {:else if flood.status === 'NEW' && permission.adminOrAbove(auth.user)}
+                        <div class="flex gap-2 w-fit ml-auto items-center">
+                            <SendAid floodId={flood.id} />
+                        </div>
                     {/if}
+                    <Button
+                        size="lg"
+                        onclick={() => {
+                            const url = `https://www.google.com/maps?q=${flood.lat},${flood.lng}`;
+                            window.open(url, '_blank');
+                        }}>Lihat di Maps</Button
+                    >
                 </Card.Footer>
             </Card.Root>
         </section>
+        {#if flood.flood_aid}
+            <section
+                class="bg-card ring ring-foreground/10 m p-5 m-5 rounded-md"
+            >
+                <h1 class="text-2xl font-semibold">Bantuan</h1>
+                <FloodAidTable items={flood.flood_aid.flood_aid_items} />
+            </section>
+        {/if}
     </main>
 </MainLayout>
 

@@ -51,10 +51,10 @@
     <Button onclick={() => setOpen('open')} size="lg">Setujui</Button>
     <Dialog.Content class="w-sm z-50">
         <Dialog.Header>
-            <Dialog.Title>Are you sure absolutely sure?</Dialog.Title>
+            <Dialog.Title>Setujui</Dialog.Title>
             <Dialog.Description>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                Dengan menyetujui laporan banjir ini, maka laporan banjir ini
+                akan di terpublikasikan dan bisa dilihat semua orang.
             </Dialog.Description>
         </Dialog.Header>
         <Dialog.Footer>

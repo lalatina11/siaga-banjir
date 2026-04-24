@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Flood;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -14,7 +15,7 @@ class FloodController extends Controller
     private function getFloodbyId($id)
     {
         try {
-            $flood = Flood::where('id', $id)->with(['user'])->first();
+            $flood = Flood::where('id', $id)->with(['user', 'floodAid.floodAidItems'])->first();
             if ($flood != null) {
                 return $flood;
             }
@@ -25,7 +26,8 @@ class FloodController extends Controller
     }
     public function index()
     {
-        $floods = Flood::where('status', '!=', 'PENDING')->with('user')->orderBy('updated_at', 'desc')->get();
+        $floods = Flood::with('user')->where('status', '!=', 'PENDING')->orderBy('updated_at', 'desc')->get();
+        Log::info($floods[0]);
         return Inertia::render('home', ['floods' => $floods]);
     }
 

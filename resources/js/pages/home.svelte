@@ -20,6 +20,9 @@
     }
 
     const { floods, avatar, ...props } = usePage().props as PageProps;
+
+    $inspect(floods);
+
     const floodFilters = allowedFloodFilters.filter((st) => st !== 'PENDING');
     let activeFilter = $state(floodFilters[0]);
     let filteredFloods = $derived(

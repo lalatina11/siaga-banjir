@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FloodAidController;
 use App\Http\Controllers\FloodController;
 use App\Http\Controllers\SuperAdminDashboardController;
 use App\Http\Controllers\UserDashboardController;
@@ -47,6 +48,7 @@ Route::middleware(['auth.middleware'])->group(function () {
         Route::prefix('/flood')->group(function () {
             Route::post('/create', [FloodController::class, 'store']);
             Route::post('/accept/{id}', [FloodController::class, 'accept'])->middleware('dual-admin.middleware');
+            Route::post('/send-aid/{id}', [FloodAidController::class, 'create'])->middleware('dual-admin.middleware');
         });
         Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         Route::post('/update-password', [AuthController::class, 'updatePassword']);

@@ -4,20 +4,39 @@ import { allowedFloodStatus } from '../validations/flood-validations';
 import type { User } from '@/types';
 
 export type FloodStatus = (typeof allowedFloodStatus)[number];
-
-export interface Flood {
+export interface TimeStamps {
     created_at: string;
+    updated_at: string;
+}
+
+export interface TimeStampsAndId extends TimeStamps {
+    id: number | string;
+}
+export interface Flood extends TimeStampsAndId {
     description: string;
     district: string;
-    id: number;
     image: string;
     lat: number;
     lng: number;
     province: string;
     regency: string;
     status: FloodStatus;
-    updated_at: string;
     village: string;
+}
+
+export interface FloodAidItems extends TimeStampsAndId {
+    name: string;
+    flood_aid_id: number;
+    price: number;
+}
+
+export interface FloodAid extends TimeStampsAndId {
+    flood_id: number;
+    flood_aid_items: Array<FloodAidItems>;
+}
+
+export interface FloodAndAid extends Flood {
+    flood_aid?: FloodAid;
 }
 
 export interface FloodWithUser extends Flood {
