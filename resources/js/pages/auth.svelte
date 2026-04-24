@@ -34,8 +34,15 @@
                 <img
                     width="700"
                     height="700"
-                    class="w-full h-auto"
+                    class="w-full inline dark:hidden h-auto"
                     src="/logo.png"
+                    alt="..."
+                />
+                <img
+                    width="700"
+                    height="700"
+                    class="w-full hidden dark:inline h-auto"
+                    src="/logo-dark.png"
                     alt="..."
                 />
             </div>
