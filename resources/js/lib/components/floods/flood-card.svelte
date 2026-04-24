@@ -1,12 +1,13 @@
 <script lang="ts">
-    import type { FloodWithUser } from '@/lib/types';
-    import * as Avatar from '../ui/avatar';
-    import * as Card from '../ui/card';
-    import { HatGlasses, User } from '@lucide/svelte';
-    import { Link } from '@inertiajs/svelte';
-    import { buttonVariants } from '../ui/button';
-    import { Badge } from '../ui/badge';
     import { floodStatusCapitalize } from '@/lib/helpers';
+    import type { FloodWithUser } from '@/lib/types';
+    import { Link } from '@inertiajs/svelte';
+    import { HatGlasses } from '@lucide/svelte';
+    import * as Avatar from '../ui/avatar';
+    import { Badge } from '../ui/badge';
+    import { buttonVariants } from '../ui/button';
+    import * as Card from '../ui/card';
+    import UserAvatar from '../user/user-avatar.svelte';
     interface Props {
         flood: FloodWithUser;
     }
@@ -16,12 +17,7 @@
 <Card.Root>
     {#if flood.user}
         <Card.Header class="flex flex-row gap-3 items-center">
-            <Avatar.Root>
-                <Avatar.Image src={flood.user.avatar} />
-                <Avatar.Fallback>
-                    <User />
-                </Avatar.Fallback>
-            </Avatar.Root>
+            <UserAvatar src={flood.user.avatar} />
             <div class="flex flex-col gap-0">
                 <Card.Title class="text-sm">{flood.user.name}</Card.Title>
                 <!-- <Card.Description class="text-xs"
@@ -32,9 +28,7 @@
     {:else}
         <Card.Header class="flex flex-row gap-3 items-center">
             <Avatar.Root>
-                <!-- <Avatar.Image src={avatar} /> -->
                 <Avatar.Fallback>
-                    <!-- <User /> -->
                     <HatGlasses />
                 </Avatar.Fallback>
             </Avatar.Root>

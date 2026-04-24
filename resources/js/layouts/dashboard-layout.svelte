@@ -6,8 +6,9 @@
     import type { Snippet } from 'svelte';
     import IndexLayout from './index-layout.svelte';
     import ModeToggle from '@/lib/components/mode-toggle.svelte';
-    import UserDropdown from '@/lib/components/user-dropdown.svelte';
+    import UserDropdown from '@/lib/components/user/user-dropdown.svelte';
     import type { DefaultPageProps } from '@/lib/types';
+    import UserAvatar from '@/lib/components/user/user-avatar.svelte';
     interface Props {
         children: Snippet<[]>;
     }
@@ -19,7 +20,9 @@
     <Sidebar.Provider open={pageProps.sidebar_state !== 'false'}>
         <DashboardSidebar />
         <main class="flex flex-col min-h-screen w-full">
-            <header class="p-4 bg-card flex justify-between">
+            <header
+                class="p-4 bg-card flex justify-between border-b border-foreground/10"
+            >
                 <div class="flex gap-2 items-center">
                     <Sidebar.Trigger />
                     {#if pageProps.auth.user && pageProps.auth.user.role}
@@ -34,7 +37,9 @@
                 </div>
                 <div class="flex gap-2 items-center">
                     <ModeToggle />
-                    <UserDropdown />
+                    <UserDropdown>
+                        <UserAvatar />
+                    </UserDropdown>
                 </div>
             </header>
             <section class="p-4 flex-1">

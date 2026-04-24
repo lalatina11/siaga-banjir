@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { Link, usePage } from '@inertiajs/svelte';
-    import { buttonVariants } from './ui/button';
-    import * as DropdownMenu from './ui/dropdown-menu';
-    import * as Avatar from './ui/avatar';
     import type { VisitHelperOptions } from '@inertiajs/core';
-    import { router } from '@inertiajs/svelte';
+    import { Link, router, usePage } from '@inertiajs/svelte';
     import { LogOut, Plus, User } from '@lucide/svelte';
+    import type { Snippet } from 'svelte';
     import { toast } from 'svelte-sonner';
-    import { Spinner } from './ui/spinner';
-    import { roleToIndonesianLang } from '../helpers';
+    import { roleToIndonesianLang } from '../../helpers';
+    import { buttonVariants } from '../ui/button';
+    import * as DropdownMenu from '../ui/dropdown-menu';
+    import { Spinner } from '../ui/spinner';
+    import UserAvatar from './user-avatar.svelte';
     const { auth } = usePage().props;
 
     let isLoading = $state(false);
@@ -33,37 +33,34 @@
         } satisfies VisitHelperOptions;
         router.post('/logout', undefined, requestOptions);
     }
+
+    interface Props {
+        children?: Snippet<[]>;
+    }
+    const { children }: Props = $props();
 </script>
 
 <DropdownMenu.Root>
-    <DropdownMenu.Trigger
-        class={buttonVariants({ size: 'icon-lg', variant: 'ghost' })}
-    >
-        <Avatar.Root>
-            <Avatar.Image src={auth.user.avatar} />
-            <Avatar.Fallback>
-                <User />
-            </Avatar.Fallback>
-        </Avatar.Root>
+    <DropdownMenu.Trigger>
+        {#if children}
+            {@render children()}
+        {/if}
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-[300px] z-30">
         <div class="flex flex-col justify-center items-center my-2">
-            <Avatar.Root class="mb-2">
-                <Avatar.Image src={auth.user.avatar} />
-                <Avatar.Fallback>
-                    <User />
-                </Avatar.Fallback>
-            </Avatar.Root>
+            <UserAvatar />
             <span class="text-sm">{auth.user.name}</span>
             <span class="text-sm text-muted-foreground">{auth.user.email}</span>
         </div>
         <DropdownMenu.Separator />
-        <DropdownMenu.Label
-            >Login sebagai: {roleToIndonesianLang(
-                auth.user.role,
-            )}</DropdownMenu.Label
-        >
-        <DropdownMenu.Separator />
+        {#if auth.user.role !== 'USER'}
+            <DropdownMenu.Label
+                >Login sebagai: {roleToIndonesianLang(
+                    auth.user.role,
+                )}</DropdownMenu.Label
+            >
+            <DropdownMenu.Separator />
+        {/if}
         <Link
             href="/dashboard/{auth.user.role === 'SUPERADMIN'
                 ? 'superadmin'

@@ -75,9 +75,7 @@
             <Card.Root>
                 <Card.Header class="flex flex-row gap-3 items-center">
                     <Avatar.Root>
-                        <!-- <Avatar.Image src={avatar} /> -->
                         <Avatar.Fallback>
-                            <!-- <User /> -->
                             <HatGlasses />
                         </Avatar.Fallback>
                     </Avatar.Root>

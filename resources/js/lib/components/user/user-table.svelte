@@ -5,6 +5,7 @@
     import { Pencil, Trash, User as UserIcon } from '@lucide/svelte';
     import * as Avatar from '../ui/avatar';
     import { Button } from '../ui/button';
+    import UserAvatar from './user-avatar.svelte';
 
     interface Props {
         users: Array<User>;
@@ -31,12 +32,7 @@
                 <Table.Row>
                     <Table.Cell class="font-medium">{index + 1}</Table.Cell>
                     <Table.Cell>
-                        <Avatar.Root>
-                            <Avatar.Image src={user.avatar} />
-                            <Avatar.Fallback>
-                                <UserIcon />
-                            </Avatar.Fallback>
-                        </Avatar.Root>
+                        <UserAvatar src={user.avatar} />
                     </Table.Cell>
                     <Table.Cell>{user.name}</Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>
