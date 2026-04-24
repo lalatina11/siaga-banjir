@@ -2,22 +2,18 @@
     import * as Table from '$lib/components/ui/table';
     import { capitalizeFirstLetter } from '@/lib/helpers';
     import type { User } from '@/types';
-    import {
-        Pencil,
-        Shield,
-        ShieldCogCorner,
-        Trash,
-        User as UserIcon,
-    } from '@lucide/svelte';
-    import * as Avatar from '../ui/avatar';
+    import { ShieldCogCorner, Trash, User as UserIcon } from '@lucide/svelte';
+    import EditUser from '../form/superadmin-form/edit-user.svelte';
     import { Button } from '../ui/button';
     import UserAvatar from './user-avatar.svelte';
+    import DeleteUser from '../form/superadmin-form/delete-user.svelte';
 
     interface Props {
         users: Array<User>;
+        activeFilter: 'USER' | 'ADMIN' | 'SUPERADMIN' | 'ALL';
     }
 
-    const { users }: Props = $props();
+    let { users = $bindable(), activeFilter = $bindable() }: Props = $props();
 </script>
 
 <section class="p-4">
@@ -55,14 +51,8 @@
                         </div>
                     </Table.Cell>
                     <Table.Cell>
-                        <Button variant="outline"
-                            ><Pencil />
-                            <span class="hidden md:inline">Edit</span></Button
-                        >
-                        <Button variant="destructive">
-                            <Trash />
-                            <span class="hidden md:inline">Delete</span>
-                        </Button>
+                        <EditUser {user} bind:users bind:activeFilter />
+                        <DeleteUser {user} bind:users bind:activeFilter />
                     </Table.Cell>
                 </Table.Row>
             {/each}

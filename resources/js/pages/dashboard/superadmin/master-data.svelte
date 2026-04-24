@@ -79,8 +79,8 @@
                     <Search />
                 </InputGroup.Addon>
             </InputGroup.Root>
-            <CreateUser bind:users={unfilteredUser} />
+            <CreateUser bind:users={unfilteredUser} bind:activeFilter />
         </section>
-        <UserTable {users} />
+        <UserTable bind:users bind:activeFilter />
     </main>
 </DashboardLayout>

@@ -51,8 +51,8 @@ class AuthController extends Controller
 
             $validated = $validator->validated();
 
-            $emailTaken = User::where('email', $validated['email'])->count();
-            if ($emailTaken > 0) {
+            $emailTaken = $this->userController->isEmailTaken($validated['email']);
+            if ($emailTaken) {
                 return redirect()->back()->withErrors('Email sudah digunakan, silahkan ganti');
             }
 
@@ -184,6 +184,12 @@ class AuthController extends Controller
                 $user->update(['name' => $validated['name']]);
             }
             if ($validated['email']) {
+                $emailCount = User::where('email', $validated['email'])->where('id', "!=", $user->id)->count();
+                $isEmailTaken = $emailCount > 0;
+                if ($isEmailTaken) {
+                    return redirect()->back()->withErrors('Email sudah digunakan pengguna lain');
+
+                }
                 $user->update(['email' => $validated['email']]);
             }
             if ($validated['avatar']) {

@@ -52,7 +52,9 @@ Route::middleware(['auth.middleware'])->group(function () {
         Route::post('/update-password', [AuthController::class, 'updatePassword']);
         Route::prefix('/superadmin')->group(function () {
             Route::post('/create-user', [SuperAdminDashboardController::class, 'createUserBySuperadmin']);
-        });
+            Route::patch('/edit-user/{id}', [SuperAdminDashboardController::class, 'editUserBySuperadmin']);
+            Route::delete('/delete-user/{id}', [SuperAdminDashboardController::class, 'deleteUserBySuperadmin']);
+        })->middleware('super.admin.middleware');
     })->middleware('auth.middleware');
 });
 

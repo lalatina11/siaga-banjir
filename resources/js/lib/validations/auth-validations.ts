@@ -33,6 +33,18 @@ export const registerSchema = z
         path: ['password_confirmation'],
     });
 
+export const editUserSchema = z.object({
+    name: z
+        .string()
+        .min(3, { message: 'Nama minimal 3 karakter' })
+        .max(64, { message: 'Nama maksimal 64 karakter' }),
+    email: z
+        .email({ message: 'Email tidak valid' })
+        .trim()
+        .lowercase('Email harus menggunakan huruf kecil'),
+    password: z.string(),
+});
+
 export const loginSchema = z.object({
     email: z
         .email({ message: 'Email tidak valid' })

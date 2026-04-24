@@ -62,7 +62,7 @@ class SuperAdminDashboardController extends Controller
                 'password.confirmed' => 'Konfirmasi password tidak sesuai.',
 
                 'role.required' => 'Password wajib diisi.',
-                'role.in:USER,ADMIN,SUPERADMIN' => 'Role hanya bisa diisi User, Admin, Ataupun Superadmin.',
+                'role.in' => 'Role hanya bisa diisi User, Admin, Ataupun Superadmin.',
             ]);
 
             if ($validator->fails()) {
@@ -81,6 +81,94 @@ class SuperAdminDashboardController extends Controller
             $password = $validated['password'];
             $role = $validated['role'];
             $this->userController->createUser($email, $name, $password, $role);
+            return redirect()->back();
+        } catch (\Throwable $err) {
+            if (config('app.debug')) {
+                return redirect()->back()->withErrors($err->getMessage());
+            }
+
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
+        }
+
+    }
+
+    public function editUserBySuperadmin(Request $request, $id)
+    {
+        try {
+
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'email' => ['string', 'email', 'max:255', 'nullable'],
+                    'name' => ['string', 'max:255', 'nullable'],
+                    'password' => ['string', 'min:8', 'max:32', 'nullable'],
+                    'role' => ['string', 'in:USER,ADMIN,SUPERADMIN', 'nullable'],
+                ],
+                [
+                    // Email
+                    'email.email' => 'Format alamat email tidak valid.',
+                    'email.max' => 'Alamat email tidak boleh lebih dari 255 karakter.',
+
+                    // Name
+                    'name.string' => 'Nama harus berupa teks.',
+                    'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+
+                    // Password
+                    'password.min' => 'Password minimal 8 karakter.',
+                    'password.max' => 'Password maksimal 32 karakter.',
+
+                    // Role
+                    'role.in' => 'Role hanya bisa diisi User, Admin, Ataupun Superadmin.',
+                ]
+            );
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->errors()->first());
+            }
+
+            $validated = $validator->validated();
+
+            $user = $this->userController->getUserById($id);
+
+            if (!$user) {
+                return redirect()->back()->withErrors('Pengguna tidak ditemukan');
+            }
+            if ($validated['name']) {
+                $user->update(['name' => $validated['name']]);
+            }
+            if ($validated['password']) {
+                $user->update(['password' => $validated['password']]);
+            }
+            if ($validated['role']) {
+                $user->update(['role' => $validated['role']]);
+            }
+            if ($validated['email']) {
+                $emailExist = User::where('email', $validated['email'])->where('id', "!=", $user->id)->first();
+                $isEmailTaken = $emailExist !== null;
+                if ($isEmailTaken) {
+                    return redirect()->back()->withErrors('Email sudah digunakan pengguna lain');
+
+                }
+                $user->update(['email' => $validated['email']]);
+            }
+
+            return redirect()->back();
+        } catch (\Throwable $err) {
+            if (config('app.debug')) {
+                return redirect()->back()->withErrors($err->getMessage());
+            }
+
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
+        }
+    }
+
+    public function deleteUserBySuperadmin($id)
+    {
+        try {
+            $user = $this->userController->getUserById($id);
+            if (!$user) {
+                return redirect()->back()->withErrors('Pengguna tidak valid');
+            }
+            $user->delete();
             return redirect()->back();
         } catch (\Throwable $err) {
             if (config('app.debug')) {
