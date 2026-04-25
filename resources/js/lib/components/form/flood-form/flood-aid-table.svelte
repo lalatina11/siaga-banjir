@@ -12,6 +12,9 @@
             currency: 'IDR',
         });
     }
+    const totalPrice = $derived(
+        items.reduce((acc, item) => acc + item.price, 0),
+    );
 </script>
 
 <Table.Root>
@@ -32,10 +35,10 @@
             </Table.Row>
         {/each}
     </Table.Body>
-    <!-- <Table.Footer>
-            <Table.Row>
-                <Table.Cell colspan={3}>Total</Table.Cell>
-                <Table.Cell class="text-end">$2,500.00</Table.Cell>
-            </Table.Row>
-        </Table.Footer> -->
+    <Table.Footer>
+        <Table.Row>
+            <Table.Cell colspan={2}>Total</Table.Cell>
+            <Table.Cell class="text-start">{priceToIDR(totalPrice)}</Table.Cell>
+        </Table.Row>
+    </Table.Footer>
 </Table.Root>

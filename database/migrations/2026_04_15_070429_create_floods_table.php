@@ -23,7 +23,7 @@ return new class extends Migration {
                 'NEW',
                 'AID_DISPATCHED',
                 'AID_ARRIVED',
-                'RESOLVE'
+                'RESOLVED'
             ])->default(value: 'PENDING');
             $table->text('province');
             $table->text('regency');

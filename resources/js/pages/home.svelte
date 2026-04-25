@@ -21,8 +21,6 @@
 
     const { floods, avatar, ...props } = usePage().props as PageProps;
 
-    $inspect(floods);
-
     const floodFilters = allowedFloodFilters.filter((st) => st !== 'PENDING');
     let activeFilter = $state(floodFilters[0]);
     let filteredFloods = $derived(
@@ -48,6 +46,8 @@
     );
 
     const handleFilter = (filter: (typeof floodFilters)[number]) => {
+        console.log({ filter });
+
         activeFilter = filter;
     };
 </script>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="inline md:hidden flex-col gap-1">
                     <ButtonGroup.Root>
-                        {#each floodFilters.slice(0, 2) as filter (filter)}
+                        {#each floodFilters.slice(0, 3) as filter (filter)}
                             <Button
                                 variant={filter === activeFilter
                                     ? 'default'
@@ -116,7 +116,7 @@
             </div>
         {:else if (filteredAndSearchedFlood.length < 1 && activeFilter !== 'ALL') || (filteredAndSearchedFlood.length && search)}
             <span class="flex h-full justify-center items-center min-h-[75vh]">
-                >Tidak ada laporan banjir yang sesuai dengan filter atau
+                Tidak ada laporan banjir yang sesuai dengan filter atau
                 pencarian, coba ganti filter ke semua
             </span>
         {:else if filteredAndSearchedFlood.length < 1 && activeFilter === 'ALL'}

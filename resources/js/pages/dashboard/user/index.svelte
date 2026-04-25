@@ -71,7 +71,7 @@
                 </div>
                 <div class="inline md:hidden flex-col gap-1">
                     <ButtonGroup.Root>
-                        {#each allowedFloodFilters.slice(0, 2) as filter (filter)}
+                        {#each allowedFloodFilters.slice(0, 3) as filter (filter)}
                             <Button
                                 variant={filter === activeFilter
                                     ? 'default'

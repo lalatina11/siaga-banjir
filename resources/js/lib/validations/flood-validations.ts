@@ -6,7 +6,7 @@ export const allowedFloodStatus = [
     'NEW',
     'AID_DISPATCHED',
     'AID_ARRIVED',
-    'RESOLVE',
+    'RESOLVED',
 ] as const;
 
 export const allowedFloodFilters = [

@@ -22,6 +22,7 @@ export interface Flood extends TimeStampsAndId {
     regency: string;
     status: FloodStatus;
     village: string;
+    user?: User;
 }
 
 export interface FloodAidItems extends TimeStampsAndId {
@@ -31,6 +32,7 @@ export interface FloodAidItems extends TimeStampsAndId {
 }
 
 export interface FloodAid extends TimeStampsAndId {
+    status: 'ON_DELIEVERY' | 'ARRIVED';
     flood_id: number;
     flood_aid_items: Array<FloodAidItems>;
 }

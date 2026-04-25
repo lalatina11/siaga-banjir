@@ -44,7 +44,7 @@ class Flood extends Model
             'NEW',
             'AID_DISPATCHED',
             'AID_ARRIVED',
-            'RESOLVE'
+            'RESOLVED'
         ];
     }
 }

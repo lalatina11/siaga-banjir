@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('flood_aids', function (Blueprint $table) {
             $table->id();
             $table->foreignId('flood_id')->constrained('floods')->cascadeOnDelete();
+            $table->enum('status', ['ON_DELIEVERY', 'ARRIVED'])->default('ON_DELIEVERY');
             $table->timestamps();
         });
     }

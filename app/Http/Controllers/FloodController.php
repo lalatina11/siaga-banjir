@@ -12,6 +12,13 @@ use Laravolt\Avatar\Avatar;
 
 class FloodController extends Controller
 {
+    protected $floodAidController;
+
+    public function __construct(FloodAidController $floodAidController)
+    {
+        $this->floodAidController = $floodAidController;
+    }
+
     private function getFloodbyId($id)
     {
         try {
@@ -27,7 +34,6 @@ class FloodController extends Controller
     public function index()
     {
         $floods = Flood::with('user')->where('status', '!=', 'PENDING')->orderBy('updated_at', 'desc')->get();
-        Log::info($floods[0]);
         return Inertia::render('home', ['floods' => $floods]);
     }
 
@@ -137,6 +143,45 @@ class FloodController extends Controller
                 return redirect()->back();
             }
             return redirect()->back()->withErrors('Gagal update laporan banjir');
+        } catch (\Throwable $err) {
+            if (config('app.debug')) {
+                return redirect()->back()->withErrors($err->getMessage());
+            }
+
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
+        }
+    }
+
+    public function markAsResolved($floodAidId)
+    {
+        try {
+            $floodAid = $this->floodAidController->getFloodAidById($floodAidId);
+            if (!$floodAid) {
+                return redirect()->back()->withErrors('Data bantuan banjir tidak valid');
+            }
+            $flood = $this->getFloodbyId($floodAid->flood_id);
+            if (!$flood) {
+                return redirect()->back()->withErrors('Laporan banjir tidak valid');
+            }
+            $flood->update(['status' => 'RESOLVED']);
+            return redirect()->back();
+        } catch (\Throwable $err) {
+            if (config('app.debug')) {
+                return redirect()->back()->withErrors($err->getMessage());
+            }
+
+            return redirect()->back()->withErrors('Coba Lagi beberapa saat');
+        }
+    }
+    public function delete($id)
+    {
+        try {
+            $flood = $this->getFloodbyId($id);
+            if (!$flood) {
+                return redirect()->back()->withErrors('Laporan banjir tidak valid');
+            }
+            $flood->delete();
+            return redirect('/dashboard/superadmin');
         } catch (\Throwable $err) {
             if (config('app.debug')) {
                 return redirect()->back()->withErrors($err->getMessage());

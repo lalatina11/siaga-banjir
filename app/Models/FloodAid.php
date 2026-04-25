@@ -11,7 +11,7 @@ class FloodAid extends Model
     /** @use HasFactory<\Database\Factories\FloodAidFactory> */
     use HasFactory;
 
-    protected $fillable = ['flood_id'];
+    protected $fillable = ['flood_id', 'status'];
 
     public function floodAidItems()
     {

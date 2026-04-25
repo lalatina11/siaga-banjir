@@ -1,11 +1,12 @@
 <script lang="ts">
-    import type { Flood } from '@/lib/types';
     import * as Dialog from '$lib/components/ui/dialog/index.js';
-    import { router } from '@inertiajs/svelte';
+    import type { Flood } from '@/lib/types';
     import { type VisitHelperOptions } from '@inertiajs/core';
-    import { Button } from '../../ui/button';
+    import { router } from '@inertiajs/svelte';
     import { toast } from 'svelte-sonner';
+    import { Button } from '../../ui/button';
     import { Spinner } from '../../ui/spinner';
+    import { Trash } from '@lucide/svelte';
     interface Props {
         floodId: Flood['id'];
     }
@@ -24,7 +25,7 @@
 
     let isLoading = $state(false);
 
-    function handleAccept() {
+    function handleDeleteFlood() {
         const requestOptions = {
             onStart: () => {
                 isLoading = true;
@@ -34,8 +35,7 @@
             },
             onSuccess: () => {
                 toast.success('Berhasil', {
-                    description:
-                        'Sekarang semua orang bisa melihat laporan ini',
+                    description: 'Berhasil menghapus laporan banjir',
                 });
                 setOpen('close');
             },
@@ -44,18 +44,19 @@
                 toast.error('Terjadi Kesalahan!', { description });
             },
         } satisfies VisitHelperOptions;
-        router.post(`/api/flood/accept/${floodId}`, undefined, requestOptions);
+        router.delete(`/api/flood/delete/${floodId}`, requestOptions);
     }
 </script>
 
 <Dialog.Root {open} onOpenChange={() => setOpen()}>
-    <Button onclick={() => setOpen('open')} size="lg">Setujui</Button>
+    <Button onclick={() => setOpen('open')} size="lg" variant="destructive"
+        ><Trash /> Delete</Button
+    >
     <Dialog.Content class="w-sm z-50">
         <Dialog.Header>
-            <Dialog.Title>Setujui</Dialog.Title>
+            <Dialog.Title>Apakah anda yakin?</Dialog.Title>
             <Dialog.Description>
-                Dengan menyetujui laporan banjir ini, maka laporan banjir ini
-                akan di terpublikasikan dan bisa dilihat semua orang.
+                Tindakan ini tidak bisa dipulihkan
             </Dialog.Description>
         </Dialog.Header>
         <Dialog.Footer>
@@ -64,16 +65,16 @@
             >
             <Button
                 disabled={isLoading}
-                onclick={handleAccept}
+                onclick={handleDeleteFlood}
                 variant="default"
                 size="lg"
             >
                 {#if isLoading}
                     <Spinner />
                 {:else}
-                    Setujui
-                {/if}</Button
-            >
+                    Hapus
+                {/if}
+            </Button>
         </Dialog.Footer>
     </Dialog.Content>
 </Dialog.Root>

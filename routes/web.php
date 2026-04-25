@@ -49,6 +49,9 @@ Route::middleware(['auth.middleware'])->group(function () {
             Route::post('/create', [FloodController::class, 'store']);
             Route::post('/accept/{id}', [FloodController::class, 'accept'])->middleware('dual-admin.middleware');
             Route::post('/send-aid/{id}', [FloodAidController::class, 'create'])->middleware('dual-admin.middleware');
+            Route::patch('/mark-as-arrived/{floodAidId}', [FloodAidController::class, 'markAsArrived'])->middleware('dual-admin.middleware');
+            Route::patch('/mark-as-resolved/{floodAidId}', [FloodController::class, 'markAsResolved']);
+            Route::delete('/delete/{id}', [FloodController::class, 'delete']);
         });
         Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         Route::post('/update-password', [AuthController::class, 'updatePassword']);

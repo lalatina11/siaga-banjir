@@ -54,7 +54,8 @@
             items: [{ name: '', price: 0 }],
         },
         onSubmit: ({ value }) => {
-            console.log({ value });
+            const data = { ...value, floodId };
+            console.log({ data });
 
             const requestOptions = {
                 onStart: () => {

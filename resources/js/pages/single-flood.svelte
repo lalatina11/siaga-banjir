@@ -2,18 +2,27 @@
     import MainLayout from '@/layouts/main-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
     import AcceptFlood from '@/lib/components/form/flood-form/accept-flood.svelte';
+    import DeleteFlood from '@/lib/components/form/flood-form/delete-flood.svelte';
     import FloodAidTable from '@/lib/components/form/flood-form/flood-aid-table.svelte';
+    import MarkAidAsArrived from '@/lib/components/form/flood-form/mark-aid-as-arrived.svelte';
+    import MarkFloodAsCompleted from '@/lib/components/form/flood-form/mark-flood-as-completed.svelte';
     import SendAid from '@/lib/components/form/flood-form/send-aid.svelte';
     import * as Avatar from '@/lib/components/ui/avatar';
+    import { Badge } from '@/lib/components/ui/badge';
     import { Button } from '@/lib/components/ui/button';
     import * as Card from '@/lib/components/ui/card';
+    import UserAvatar from '@/lib/components/user/user-avatar.svelte';
+    import {
+        floodAidStatusSwitcher,
+        floodStatusCapitalize,
+    } from '@/lib/helpers';
     import { useRoleBasedPermission } from '@/lib/helpers/role-and-access';
     import type {
         PageProps as DefaultPageProps,
         FloodAndAid,
     } from '@/lib/types';
     import { usePage } from '@inertiajs/svelte';
-    import { ArrowLeft, HatGlasses } from '@lucide/svelte';
+    import { ArrowLeft, HatGlasses, Shield } from '@lucide/svelte';
     import { type MapOptions } from 'leaflet';
     import 'leaflet/dist/leaflet.css';
     import { onDestroy, onMount } from 'svelte';
@@ -22,9 +31,9 @@
         flood: FloodAndAid;
     }
 
-    const { flood, auth } = usePage().props as PageProps;
+    const { flood: initialFlood, auth } = usePage().props as PageProps;
 
-    $inspect(flood);
+    let flood = $derived(initialFlood);
 
     const permission = useRoleBasedPermission();
 
@@ -60,6 +69,13 @@
             map.remove();
         }
     });
+
+    $effect(() => {
+        const { flood: updatedFlood } = usePage().props as PageProps;
+        if (updatedFlood) {
+            flood = updatedFlood;
+        }
+    });
 </script>
 
 <AppHead title="Banjir {flood.id}" />
@@ -81,19 +97,45 @@
         >
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10 p-5">
             <Card.Root>
-                <Card.Header class="flex flex-row gap-3 items-center">
-                    <Avatar.Root>
-                        <Avatar.Fallback>
-                            <HatGlasses />
-                        </Avatar.Fallback>
-                    </Avatar.Root>
-                    <div class="flex flex-col gap-0">
-                        <Card.Title class="text-sm">Oleh anonymous</Card.Title>
-                        <Card.Description class="text-xs"
-                            >anonymous@anon.com</Card.Description
-                        >
-                    </div>
-                </Card.Header>
+                {#if flood.user}
+                    <Card.Header class="flex flex-row gap-3 items-center">
+                        <UserAvatar />
+                        <div class="flex flex-col gap-0">
+                            <Card.Title class="text-sm flex gap-2 items-center"
+                                >{flood.user.name}
+                                {#if permission.adminOrAbove(flood.user)}
+                                    <Badge><Shield />Admin</Badge>
+                                {/if}
+                            </Card.Title>
+                            <Card.Description class="text-xs"
+                                >anonymous@anon.com</Card.Description
+                            >
+                            <Card.Description class="text-xs"
+                                >Status Banjir: <Badge variant="outline"
+                                    >{floodStatusCapitalize(
+                                        flood.status,
+                                    )}</Badge
+                                ></Card.Description
+                            >
+                        </div>
+                    </Card.Header>
+                {:else}
+                    <Card.Header class="flex flex-row gap-3 items-center">
+                        <Avatar.Root>
+                            <Avatar.Fallback>
+                                <HatGlasses />
+                            </Avatar.Fallback>
+                        </Avatar.Root>
+                        <div class="flex flex-col gap-0">
+                            <Card.Title class="text-sm"
+                                >Oleh anonymous</Card.Title
+                            >
+                            <Card.Description class="text-xs"
+                                >anonymous@anon.com</Card.Description
+                            >
+                        </div>
+                    </Card.Header>
+                {/if}
                 <Card.Content class="flex flex-col gap-3 flex-1">
                     <span class="flex-1">
                         {flood.description || 'Tidak ada deskripsi'}
@@ -122,13 +164,16 @@
                 </Card.Content>
                 <Card.Footer class="flex gap-2 justify-end items-end w-full">
                     {#if flood.status === 'PENDING' && permission.adminOrAbove(auth.user)}
-                        <div class="flex gap-2 w-fit ml-auto items-center">
-                            <AcceptFlood floodId={flood.id} />
-                        </div>
+                        <AcceptFlood floodId={flood.id} />
                     {:else if flood.status === 'NEW' && permission.adminOrAbove(auth.user)}
-                        <div class="flex gap-2 w-fit ml-auto items-center">
-                            <SendAid floodId={flood.id} />
-                        </div>
+                        <SendAid floodId={flood.id} />
+                    {:else if flood.status === 'AID_DISPATCHED' && permission.adminOrAbove(auth.user) && flood.flood_aid}
+                        <MarkAidAsArrived floodAidId={flood.flood_aid.id} />
+                    {:else if flood.status === 'AID_ARRIVED' && permission.adminOrAbove(auth.user) && flood.flood_aid}
+                        <MarkFloodAsCompleted floodAidId={flood.flood_aid.id} />
+                    {/if}
+                    {#if permission.superadmin(auth.user)}
+                        <DeleteFlood floodId={flood.id} />
                     {/if}
                     <Button
                         size="lg"
@@ -145,6 +190,19 @@
                 class="bg-card ring ring-foreground/10 m p-5 m-5 rounded-md"
             >
                 <h1 class="text-2xl font-semibold">Bantuan</h1>
+                <div class="flex gap-2 items-center">
+                    <span class="text-sm text-muted-foreground"
+                        >Status <span class="hidden md:inline"
+                            >Pengiriman Bantuan:</span
+                        ></span
+                    >
+                    <Badge
+                        variant={flood.flood_aid.status === 'ON_DELIEVERY'
+                            ? 'outline'
+                            : 'default'}
+                        >{floodAidStatusSwitcher(flood.flood_aid.status)}</Badge
+                    >
+                </div>
                 <FloodAidTable items={flood.flood_aid.flood_aid_items} />
             </section>
         {/if}

@@ -1,5 +1,5 @@
 import type { User } from '@/types';
-import type { AllowedFloodFilter, FloodStatus } from '../types';
+import type { AllowedFloodFilter, FloodAid, FloodStatus } from '../types';
 
 export const capitalizeFirstLetter = (text: string) => {
     if (text.length < 2) return text;
@@ -27,7 +27,7 @@ export const floodFilterCapitalize = (filter: AllowedFloodFilter) => {
             return 'Sedang Dikirim Bantuan';
         case 'AID_ARRIVED':
             return 'Telah Dikirim Bantuan';
-        case 'RESOLVE':
+        case 'RESOLVED':
             return 'Selesai';
         case 'PENDING':
             return 'Menunggu Persetujuan Admin';
@@ -43,9 +43,24 @@ export const floodStatusCapitalize = (filter: FloodStatus) => {
             return 'Sedang Dikirim Bantuan';
         case 'AID_ARRIVED':
             return 'Telah Dikirim Bantuan';
-        case 'RESOLVE':
+        case 'RESOLVED':
             return 'Selesai';
         case 'PENDING':
             return 'Menunggu Persetujuan Admin';
+        case 'PENDING':
+            return 'Menunggu Persetujuan Admin';
+        default:
+            return '';
     }
 };
+
+export function floodAidStatusSwitcher(status: FloodAid['status']) {
+    switch (status) {
+        case 'ON_DELIEVERY':
+            return 'Dalam Perjalanan';
+        case 'ARRIVED':
+            return 'Sampai di tujuan';
+        default:
+            return '';
+    }
+}
