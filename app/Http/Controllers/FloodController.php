@@ -43,7 +43,7 @@ class FloodController extends Controller
         if ($flood == null) {
             return Inertia::render('error/not-found-error');
         }
-        if ($flood->status === "PENDING" && (request()->user == null || request()->user()->role === "USER")) {
+        if ($flood->status === "PENDING" && (request()->user() == null || request()->user()->role === "USER")) {
             return redirect()->route('home');
         }
         return Inertia::render('single-flood', ['flood' => $flood]);
