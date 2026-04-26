@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { floodStatusCapitalize } from '@/lib/helpers';
+    import { floodStatusCapitalize, roleToIndonesianLang } from '@/lib/helpers';
     import type { FloodWithUser } from '@/lib/types';
     import { Link } from '@inertiajs/svelte';
-    import { HatGlasses } from '@lucide/svelte';
+    import { HatGlasses, ShieldCheck } from '@lucide/svelte';
     import * as Avatar from '../ui/avatar';
     import { Badge } from '../ui/badge';
     import { buttonVariants } from '../ui/button';
@@ -20,9 +20,14 @@
             <UserAvatar src={flood.user.avatar} />
             <div class="flex flex-col gap-0">
                 <Card.Title class="text-sm">{flood.user.name}</Card.Title>
-                <!-- <Card.Description class="text-xs"
-                >{flood.user.created_at}</Card.Description
-                > -->
+                {#if flood.user && flood.user.role !== 'USER'}
+                    <Card.Description>
+                        <Badge>
+                            <ShieldCheck />
+                            {roleToIndonesianLang(flood.user.role)}
+                        </Badge>
+                    </Card.Description>
+                {/if}
             </div>
         </Card.Header>
     {:else}
