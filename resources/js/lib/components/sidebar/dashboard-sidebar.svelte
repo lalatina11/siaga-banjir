@@ -22,13 +22,13 @@
                 <Sidebar.Menu>
                     {#each items as item (item.title)}
                         <Sidebar.MenuItem>
-                            <Sidebar.MenuButton
-                                variant={item.url === pathname
-                                    ? 'outline'
-                                    : 'default'}
-                            >
+                            <Sidebar.MenuButton>
                                 {#snippet child({ props })}
-                                    <Link href={item.url} {...props}>
+                                    <Link
+                                        href={item.url}
+                                        {...props}
+                                        class={`flex w-full justify-normal items-center ${buttonVariants({ variant: pathname === item.url ? 'default' : 'ghost' })}`}
+                                    >
                                         <item.icon />
                                         <span>{item.title}</span>
                                     </Link>
