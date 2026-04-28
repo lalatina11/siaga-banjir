@@ -1,11 +1,10 @@
 <script lang="ts">
     import type { VisitHelperOptions } from '@inertiajs/core';
     import { Link, router, usePage } from '@inertiajs/svelte';
-    import { LogOut, Plus, User } from '@lucide/svelte';
+    import { LayoutDashboard, LogOut, Plus, User } from '@lucide/svelte';
     import type { Snippet } from 'svelte';
     import { toast } from 'svelte-sonner';
     import { roleToIndonesianLang } from '../../helpers';
-    import { buttonVariants } from '../ui/button';
     import * as DropdownMenu from '../ui/dropdown-menu';
     import { Spinner } from '../ui/spinner';
     import UserAvatar from './user-avatar.svelte';
@@ -62,13 +61,13 @@
             <DropdownMenu.Separator />
         {/if}
         <Link
-            href="/dashboard/{auth.user.role === 'SUPERADMIN'
-                ? 'superadmin'
+            href="/dashboard{auth.user.role === 'SUPERADMIN'
+                ? '/superadmin'
                 : auth.user.role === 'ADMIN'
-                  ? 'admin'
+                  ? '/admin'
                   : ''}"
         >
-            <DropdownMenu.Item>Dashboard</DropdownMenu.Item>
+            <DropdownMenu.Item><LayoutDashboard /> Dashboard</DropdownMenu.Item>
         </Link>
         <Link href="/dashboard/profile">
             <DropdownMenu.Item><User /> Profile</DropdownMenu.Item>
