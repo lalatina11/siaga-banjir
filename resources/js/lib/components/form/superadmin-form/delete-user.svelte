@@ -1,13 +1,13 @@
 <script lang="ts">
+    import type { VisitHelperOptions } from '@inertiajs/core';
+    import { router } from '@inertiajs/svelte';
+    import { Trash } from '@lucide/svelte/icons';
+    import { toast } from 'svelte-sonner';
     import { Button } from '@/lib/components/ui/button';
     import { Spinner } from '@/lib/components/ui/spinner';
     import type { DefaultPageProps } from '@/lib/types';
     import type { User } from '@/types';
-    import { Trash } from '@lucide/svelte/icons';
     import * as Dialog from '../../ui/dialog';
-    import { toast } from 'svelte-sonner';
-    import { router } from '@inertiajs/svelte';
-    import type { VisitHelperOptions } from '@inertiajs/core';
 
     let isLoading = $state(false);
 
@@ -32,9 +32,11 @@
         if (mode === 'switch') {
             return (open = !open);
         }
+
         if (mode === 'open') {
             return (open = true);
         }
+
         open = false;
     }
 
