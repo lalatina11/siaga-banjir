@@ -1,4 +1,3 @@
-import type { User } from '@/types';
 import {
     DatabaseZap,
     HouseIcon,
@@ -6,6 +5,7 @@ import {
     User as UserIcon,
 } from '@lucide/svelte';
 import SettingsIcon from '@lucide/svelte/icons/settings';
+import type { User } from '@/types';
 const userItems = [
     {
         title: 'Beranda',
