@@ -79,7 +79,9 @@
             {#if isLoading}
                 <Spinner />
             {:else}
-                <LogOut /> Logout
+                <div class="flex gap-2 items-center">
+                    <LogOut /> Logout
+                </div>
             {/if}
         </DropdownMenu.Item>
     </DropdownMenu.Content>
