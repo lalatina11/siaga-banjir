@@ -1,4 +1,8 @@
 <script lang="ts">
+    import { usePage } from '@inertiajs/svelte';
+    import { ArrowLeft, HatGlasses, Shield } from '@lucide/svelte';
+    import type { MapOptions } from 'leaflet';
+    import { onDestroy, onMount } from 'svelte';
     import MainLayout from '@/layouts/main-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
     import AcceptFlood from '@/lib/components/form/flood-form/accept-flood.svelte';
@@ -21,11 +25,7 @@
         PageProps as DefaultPageProps,
         FloodAndAid,
     } from '@/lib/types';
-    import { usePage } from '@inertiajs/svelte';
-    import { ArrowLeft, HatGlasses, Shield } from '@lucide/svelte';
-    import { type MapOptions } from 'leaflet';
     import 'leaflet/dist/leaflet.css';
-    import { onDestroy, onMount } from 'svelte';
 
     interface PageProps extends DefaultPageProps {
         flood: FloodAndAid;
@@ -72,6 +72,7 @@
 
     $effect(() => {
         const { flood: updatedFlood } = usePage().props as PageProps;
+
         if (updatedFlood) {
             flood = updatedFlood;
         }
@@ -89,6 +90,7 @@
                 if (map) {
                     map.remove();
                 }
+
                 window.location.href = '/';
             }}
         >
@@ -163,17 +165,21 @@
                     ></div>
                 </Card.Content>
                 <Card.Footer class="flex gap-2 justify-end items-end w-full">
-                    {#if flood.status === 'PENDING' && permission.adminOrAbove(auth.user)}
-                        <AcceptFlood floodId={flood.id} />
-                    {:else if flood.status === 'NEW' && permission.adminOrAbove(auth.user)}
-                        <SendAid floodId={flood.id} />
-                    {:else if flood.status === 'AID_DISPATCHED' && permission.adminOrAbove(auth.user) && flood.flood_aid}
-                        <MarkAidAsArrived floodAidId={flood.flood_aid.id} />
-                    {:else if flood.status === 'AID_ARRIVED' && permission.adminOrAbove(auth.user) && flood.flood_aid}
-                        <MarkFloodAsCompleted floodAidId={flood.flood_aid.id} />
-                    {/if}
-                    {#if permission.superadmin(auth.user)}
-                        <DeleteFlood floodId={flood.id} />
+                    {#if auth.user}
+                        {#if flood.status === 'PENDING' && permission.adminOrAbove(auth.user)}
+                            <AcceptFlood floodId={flood.id} />
+                        {:else if flood.status === 'NEW' && permission.adminOrAbove(auth.user)}
+                            <SendAid floodId={flood.id} />
+                        {:else if flood.status === 'AID_DISPATCHED' && permission.adminOrAbove(auth.user) && flood.flood_aid}
+                            <MarkAidAsArrived floodAidId={flood.flood_aid.id} />
+                        {:else if flood.status === 'AID_ARRIVED' && permission.adminOrAbove(auth.user) && flood.flood_aid}
+                            <MarkFloodAsCompleted
+                                floodAidId={flood.flood_aid.id}
+                            />
+                        {/if}
+                        {#if permission.superadmin(auth.user)}
+                            <DeleteFlood floodId={flood.id} />
+                        {/if}
                     {/if}
                     <Button
                         size="lg"

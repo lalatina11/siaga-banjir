@@ -1,12 +1,12 @@
 <script lang="ts">
+    import { usePage } from '@inertiajs/svelte';
     import { User } from '@lucide/svelte';
     import * as Avatar from '../ui/avatar';
-    import { usePage } from '@inertiajs/svelte';
     interface Props {
         src?: string;
     }
     const { auth } = usePage().props;
-    const { src = auth.user.avatar }: Props = $props();
+    const { src = auth?.user?.avatar || '' }: Props = $props();
 </script>
 
 <Avatar.Root>
