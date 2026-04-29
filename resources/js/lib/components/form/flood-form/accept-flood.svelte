@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { Flood } from '@/lib/types';
-    import * as Dialog from '$lib/components/ui/dialog/index.js';
+    import type { VisitHelperOptions } from '@inertiajs/core';
     import { router } from '@inertiajs/svelte';
-    import { type VisitHelperOptions } from '@inertiajs/core';
-    import { Button } from '../../ui/button';
     import { toast } from 'svelte-sonner';
+    import * as Dialog from '$lib/components/ui/dialog/index.js';
+    import type { Flood } from '@/lib/types';
+    import { Button } from '../../ui/button';
     import { Spinner } from '../../ui/spinner';
     interface Props {
         floodId: Flood['id'];
@@ -16,9 +16,11 @@
         if (mode === 'switch') {
             return (open = !open);
         }
+
         if (mode === 'open') {
             return (open = true);
         }
+
         open = false;
     };
 
@@ -38,6 +40,14 @@
                         'Sekarang semua orang bisa melihat laporan ini',
                 });
                 setOpen('close');
+                const pathname = window.location.pathname;
+
+                if (
+                    pathname.endsWith('admin') ||
+                    pathname.endsWith('superadmin')
+                ) {
+                    window.location.reload();
+                }
             },
             onError: (error) => {
                 const description = error[0] || 'Coba lagi beberapa saat';
