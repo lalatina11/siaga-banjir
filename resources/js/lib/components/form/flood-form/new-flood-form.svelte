@@ -1,23 +1,22 @@
 <script lang="ts">
+    import type { VisitHelperOptions } from '@inertiajs/core';
+    import { router } from '@inertiajs/svelte';
+    import { createForm } from '@tanstack/svelte-form';
+    import { createQuery } from '@tanstack/svelte-query';
+    import { toast } from 'svelte-sonner';
     import { Button, buttonVariants } from '$lib/components/ui/button';
     import * as Card from '$lib/components/ui/card';
     import * as Field from '$lib/components/ui/field';
     import ScrollArea from '$lib/components/ui/scroll-area/scroll-area.svelte';
     import { Textarea } from '$lib/components/ui/textarea';
     import AppHead from '@/lib/components/AppHead.svelte';
-    import { createForm } from '@tanstack/svelte-form';
-    import { toast } from 'svelte-sonner';
-    import z from 'zod';
+    import { floodSchema } from '@/lib/validations/flood-validations';
+    import { imageSchema } from '@/lib/validations/upload-image-validations';
+    import { Checkbox } from '../../ui/checkbox';
     import { Input } from '../../ui/input';
     import ScrollAreaScrollbar from '../../ui/scroll-area/scroll-area-scrollbar.svelte';
     import { Spinner } from '../../ui/spinner';
     import LocationPicker from './location-picker.svelte';
-    import { createQuery } from '@tanstack/svelte-query';
-    import { router } from '@inertiajs/svelte';
-    import { type VisitHelperOptions } from '@inertiajs/core';
-    import { imageSchema } from '@/lib/validations/upload-image-validations';
-    import { floodSchema } from '@/lib/validations/flood-validations';
-    import { Checkbox } from '../../ui/checkbox';
 
     let lat = $state(-7.4244);
     let lng = $state(109.2303);
@@ -43,20 +42,25 @@
         },
         onSubmit: async ({ value }) => {
             const validations = imageSchema.safeParse(image);
+
             if (!validations.success) {
                 toast.error('Error!', {
                     description: 'Ada field yang belum diisi dengan benar',
                 });
                 formError = validations.error.issues[0].message;
+
                 return;
             }
+
             if (!validations.data) {
                 toast.error('Error!', {
                     description: 'Ada field yang belum diisi dengan benar',
                 });
                 formError = 'Tolong masukkan gambar';
+
                 return;
             }
+
             const data = {
                 ...value,
                 is_anon: value.is_anon ? 'true' : 'false',
@@ -95,7 +99,7 @@
 
     const revokeImage = () => (image = null);
 
-    const _query = createQuery(() => ({
+    createQuery(() => ({
         queryKey: ['flood', lat, lng],
         queryFn: async () => {
             const res = await fetch(
@@ -112,9 +116,11 @@
             console.log({ result });
 
             form.setFieldValue('province', result.address.state || '');
+
             if (result.address.county) {
                 form.setFieldValue('regency', result.address.county);
             }
+
             form.setFieldValue('village', result.address.village || '');
 
             return { success: true };
@@ -190,6 +196,7 @@
                                 onchange={(e) => {
                                     const { files } =
                                         e.target as HTMLInputElement;
+
                                     if (files) {
                                         formError = '';
                                         image = files?.[0];
