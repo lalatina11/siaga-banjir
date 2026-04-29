@@ -1,17 +1,17 @@
 <script lang="ts">
-    import * as Dialog from '$lib/components/ui/dialog/index.js';
-    import type { Flood } from '@/lib/types';
+    import type { VisitHelperOptions } from '@inertiajs/core';
+    import { router } from '@inertiajs/svelte';
     import { PackagePlus, Plus, Trash2 } from '@lucide/svelte';
     import { createForm } from '@tanstack/svelte-form';
+    import { toast } from 'svelte-sonner';
     import z from 'zod';
+    import * as Dialog from '$lib/components/ui/dialog/index.js';
+    import type { Flood } from '@/lib/types';
     import { Button } from '../../ui/button';
     import * as Field from '../../ui/field';
     import { Input } from '../../ui/input';
     import { ScrollArea } from '../../ui/scroll-area';
     import { Spinner } from '../../ui/spinner';
-    import { router } from '@inertiajs/svelte';
-    import { type VisitHelperOptions } from '@inertiajs/core';
-    import { toast } from 'svelte-sonner';
 
     interface Props {
         floodId: Flood['id'];
@@ -38,8 +38,14 @@
     const { floodId }: Props = $props();
     let open = $state(false);
     const setOpen = (mode: 'open' | 'close' | 'switch' = 'switch') => {
-        if (mode === 'switch') return (open = !open);
-        if (mode === 'open') return (open = true);
+        if (mode === 'switch') {
+            return (open = !open);
+        }
+
+        if (mode === 'open') {
+            return (open = true);
+        }
+
         open = false;
     };
 
@@ -54,9 +60,6 @@
             items: [{ name: '', price: 0 }],
         },
         onSubmit: ({ value }) => {
-            const data = { ...value, floodId };
-            console.log({ data });
-
             const requestOptions = {
                 onStart: () => {
                     isLoading = true;
@@ -124,7 +127,7 @@
                     <form.Field name="items">
                         {#snippet children(field)}
                             <!-- Item rows -->
-                            {#each field.state.value as item, i}
+                            {#each field.state.value as item, i (i)}
                                 <div
                                     class="group relative rounded-xl border border-border/60 bg-muted/30 p-4 transition-colors hover:border-border hover:bg-muted/50"
                                 >

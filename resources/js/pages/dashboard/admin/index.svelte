@@ -23,8 +23,6 @@
     let search = $state('');
 
     const { floods } = usePage().props as Props;
-    console.log({ floods });
-
     const allowedFilters = [
         'ALL',
         ...allowedFloodStatus,

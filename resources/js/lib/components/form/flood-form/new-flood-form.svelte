@@ -69,8 +69,6 @@
                 lng,
             };
 
-            console.log({ data });
-
             const requestOptions = {
                 onStart: () => {
                     isLoading = true;
@@ -113,7 +111,6 @@
                 },
             );
             const result = await res.json();
-            console.log({ result });
 
             form.setFieldValue('province', result.address.state || '');
 

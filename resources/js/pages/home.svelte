@@ -47,8 +47,6 @@
     );
 
     const handleFilter = (filter: (typeof floodFilters)[number]) => {
-        console.log({ filter });
-
         activeFilter = filter;
     };
 </script>

@@ -1,16 +1,8 @@
 <script lang="ts">
-    import AppHead from '@/lib/components/AppHead.svelte';
+    import { Link } from '@inertiajs/svelte';
     import IndexLayout from '@/layouts/index-layout.svelte';
+    import AppHead from '@/lib/components/AppHead.svelte';
     import { buttonVariants } from '@/lib/components/ui/button';
-    import type { DefaultPageProps } from '@/lib/types';
-    import { Link, usePage } from '@inertiajs/svelte';
-
-    interface Props extends DefaultPageProps {
-        error: string;
-    }
-
-    const { error } = usePage().props as Props;
-    console.log(error);
 </script>
 
 <AppHead title="404" />
