@@ -1,4 +1,8 @@
 <script lang="ts">
+    import type { VisitHelperOptions } from '@inertiajs/core';
+    import { Link, router, usePage } from '@inertiajs/svelte';
+    import { createForm } from '@tanstack/svelte-form';
+    import { toast } from 'svelte-sonner';
     import DashboardLayout from '@/layouts/dashboard-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
     import { Button, buttonVariants } from '@/lib/components/ui/button';
@@ -7,10 +11,6 @@
     import { Input } from '@/lib/components/ui/input';
     import { Spinner } from '@/lib/components/ui/spinner';
     import { updateProfileSchema } from '@/lib/validations/auth-validations';
-    import { type VisitHelperOptions } from '@inertiajs/core';
-    import { Link, router, usePage } from '@inertiajs/svelte';
-    import { createForm } from '@tanstack/svelte-form';
-    import { toast } from 'svelte-sonner';
 
     let isLoading = $state(false);
     let formError = $state('');
@@ -172,10 +172,12 @@
                         hidden
                         onchange={(e) => {
                             const { files } = e.target as HTMLInputElement;
+
                             if (files && files?.[0]) {
                                 if (formError) {
                                     formError = '';
                                 }
+
                                 newAvatar = files[0];
                             }
                         }}
