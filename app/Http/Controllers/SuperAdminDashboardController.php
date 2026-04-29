@@ -80,7 +80,7 @@ class SuperAdminDashboardController extends Controller
             $name = $validated['name'];
             $password = $validated['password'];
             $role = $validated['role'];
-            $this->userController->createUser($email, $name, $password, $role);
+            $this->userController->createUser($name, $email, $password, $role);
             return redirect()->back();
         } catch (\Throwable $err) {
             if (config('app.debug')) {
