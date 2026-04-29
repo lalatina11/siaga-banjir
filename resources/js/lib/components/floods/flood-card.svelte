@@ -1,17 +1,21 @@
 <script lang="ts">
+    import { Link, usePage } from '@inertiajs/svelte';
+    import { HatGlasses, Hourglass, ShieldCheck } from '@lucide/svelte';
     import { floodStatusCapitalize, roleToIndonesianLang } from '@/lib/helpers';
+    import { useRoleBasedPermission } from '@/lib/helpers/role-and-access';
     import type { FloodWithUser } from '@/lib/types';
-    import { Link } from '@inertiajs/svelte';
-    import { HatGlasses, ShieldCheck } from '@lucide/svelte';
+    import AcceptFlood from '../form/flood-form/accept-flood.svelte';
     import * as Avatar from '../ui/avatar';
     import { Badge } from '../ui/badge';
-    import { buttonVariants } from '../ui/button';
+    import { Button, buttonVariants } from '../ui/button';
     import * as Card from '../ui/card';
     import UserAvatar from '../user/user-avatar.svelte';
     interface Props {
         flood: FloodWithUser;
     }
+    const permission = useRoleBasedPermission();
     const { flood }: Props = $props();
+    const pageProps = usePage().props;
 </script>
 
 <Card.Root>
@@ -57,10 +61,25 @@
         />
     </Card.Content>
     <Card.Footer>
-        <Link
-            href={`/flood/${flood.id}`}
-            class={`ml-auto ${buttonVariants({ size: 'lg' })}`}
-            >Lihat Selengkapnya</Link
-        >
+        {#if flood.status !== 'PENDING' || (flood.status === 'PENDING' && pageProps.auth.user !== null && permission.adminOrAbove(pageProps.auth.user))}
+            {#if flood.status === 'PENDING'}
+                <div class="flex gap-2 items-center w-fit ml-auto">
+                    <AcceptFlood floodId={flood.id} />
+                    <Link
+                        href={`/flood/${flood.id}`}
+                        class={`ml-auto ${buttonVariants({ size: 'lg' })}`}
+                        >Lihat Selengkapnya</Link
+                    >
+                </div>
+            {:else}
+                <Link
+                    href={`/flood/${flood.id}`}
+                    class={`ml-auto ${buttonVariants({ size: 'lg' })}`}
+                    >Lihat Selengkapnya</Link
+                >
+            {/if}
+        {:else}
+            <Button class="ml-auto" disabled><Hourglass /> Pending</Button>
+        {/if}
     </Card.Footer>
 </Card.Root>
