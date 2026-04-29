@@ -1,7 +1,10 @@
 <script lang="ts">
+    import { usePage } from '@inertiajs/svelte';
+    import { Search } from '@lucide/svelte';
     import DashboardLayout from '@/layouts/dashboard-layout.svelte';
     import AppHead from '@/lib/components/AppHead.svelte';
     import FloodCard from '@/lib/components/floods/flood-card.svelte';
+    import { Badge } from '@/lib/components/ui/badge';
     import { Button } from '@/lib/components/ui/button';
     import * as ButtonGroup from '@/lib/components/ui/button-group';
     import * as InputGroup from '@/lib/components/ui/input-group';
@@ -12,8 +15,6 @@
         FloodWithUser,
     } from '@/lib/types';
     import { allowedFloodStatus } from '@/lib/validations/flood-validations';
-    import { usePage } from '@inertiajs/svelte';
-    import { Search } from '@lucide/svelte';
 
     interface Props extends DefaultPageProps {
         floods: Array<FloodWithUser>;
@@ -61,40 +62,64 @@
                     <span class="font-semibold hidden lg:inline">Filter:</span>
                     <ButtonGroup.Root class="hidden md:inline">
                         {#each allowedFilters as filter (filter)}
+                            {@const selected = filter === activeFilter}
                             <Button
-                                variant={filter === activeFilter
-                                    ? 'default'
-                                    : 'outline'}
+                                variant={selected ? 'default' : 'outline'}
                                 onclick={() => handleFilter(filter)}
                                 size="lg"
-                                >{floodFilterCapitalize(filter)}</Button
-                            >
+                                >{floodFilterCapitalize(filter)}
+                                <Badge
+                                    variant={selected ? 'secondary' : 'default'}
+                                >
+                                    {filter === 'ALL'
+                                        ? floods.length
+                                        : floods.filter(
+                                              (fl) => fl.status === filter,
+                                          ).length}
+                                </Badge>
+                            </Button>
                         {/each}
                     </ButtonGroup.Root>
                 </div>
                 <div class="inline md:hidden flex-col gap-1">
                     <ButtonGroup.Root>
                         {#each allowedFilters.slice(0, 3) as filter (filter)}
+                            {@const selected = filter === activeFilter}
                             <Button
-                                variant={filter === activeFilter
-                                    ? 'default'
-                                    : 'outline'}
+                                variant={selected ? 'default' : 'outline'}
                                 onclick={() => handleFilter(filter)}
                                 size="lg"
-                                >{floodFilterCapitalize(filter)}</Button
-                            >
+                                >{floodFilterCapitalize(filter)}
+                                <Badge
+                                    variant={selected ? 'secondary' : 'default'}
+                                >
+                                    {filter === 'ALL'
+                                        ? floods.length
+                                        : floods.filter(
+                                              (fl) => fl.status === filter,
+                                          ).length}
+                                </Badge>
+                            </Button>
                         {/each}
                     </ButtonGroup.Root>
                     <ButtonGroup.Root>
                         {#each allowedFilters.slice(3, allowedFilters.length) as filter (filter)}
+                            {@const selected = filter === activeFilter}
                             <Button
-                                variant={filter === activeFilter
-                                    ? 'default'
-                                    : 'outline'}
+                                variant={selected ? 'default' : 'outline'}
                                 onclick={() => handleFilter(filter)}
                                 size="lg"
-                                >{floodFilterCapitalize(filter)}</Button
-                            >
+                                >{floodFilterCapitalize(filter)}
+                                <Badge
+                                    variant={selected ? 'secondary' : 'default'}
+                                >
+                                    {filter === 'ALL'
+                                        ? floods.length
+                                        : floods.filter(
+                                              (fl) => fl.status === filter,
+                                          ).length}
+                                </Badge>
+                            </Button>
                         {/each}
                     </ButtonGroup.Root>
                 </div>
