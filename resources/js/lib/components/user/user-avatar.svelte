@@ -4,12 +4,13 @@
     import * as Avatar from '../ui/avatar';
     interface Props {
         src?: string;
+        class?: string;
     }
     const { auth } = usePage().props;
-    const { src = auth?.user?.avatar || '' }: Props = $props();
+    const { src = auth?.user?.avatar || '', ...props }: Props = $props();
 </script>
 
-<Avatar.Root>
+<Avatar.Root class={props.class ?? ''}>
     <Avatar.Image {src} />
     <Avatar.Fallback>
         <User />

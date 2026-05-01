@@ -1,11 +1,9 @@
 <script lang="ts">
-    import * as Sidebar from '$lib/components/ui/sidebar/index.js';
     import { Link, usePage } from '@inertiajs/svelte';
-    import { useSidebarMenuItems } from './use-sidebar-menu-items';
+    import * as Sidebar from '$lib/components/ui/sidebar/index.js';
     import UserAvatar from '../user/user-avatar.svelte';
     import UserDropdown from '../user/user-dropdown.svelte';
-    import { ChevronsDownUp } from '@lucide/svelte';
-    import { buttonVariants } from '../ui/button';
+    import { useSidebarMenuItems } from './use-sidebar-menu-items';
 
     const props = usePage().props;
 
@@ -22,13 +20,13 @@
                 <Sidebar.Menu>
                     {#each items as item (item.title)}
                         <Sidebar.MenuItem>
-                            <Sidebar.MenuButton>
+                            <Sidebar.MenuButton
+                                variant={item.url == pathname
+                                    ? 'primary'
+                                    : 'default'}
+                            >
                                 {#snippet child({ props })}
-                                    <Link
-                                        href={item.url}
-                                        {...props}
-                                        class={`flex w-full justify-normal items-center ${buttonVariants({ variant: pathname === item.url ? 'default' : 'ghost' })}`}
-                                    >
+                                    <Link href={item.url} {...props}>
                                         <item.icon />
                                         <span>{item.title}</span>
                                     </Link>
@@ -42,16 +40,11 @@
     </Sidebar.Content>
     <Sidebar.Footer>
         <UserDropdown>
-            <Sidebar.MenuItem
-                class={`flex justify-between items-center w-full p-6 px-2 ${buttonVariants({ variant: 'outline' })}`}
-            >
-                <div class="flex gap-2 items-center">
-                    <UserAvatar />
-                    <span class="text-sm text-muted-foreground">
-                        {props.auth.user.name}
-                    </span>
-                </div>
-                <ChevronsDownUp class="size-3.5 text-muted-foreground" />
+            <Sidebar.MenuItem>
+                <Sidebar.MenuButton>
+                    <UserAvatar class="size-6" />
+                    {props.auth.user.name}
+                </Sidebar.MenuButton>
             </Sidebar.MenuItem>
         </UserDropdown>
     </Sidebar.Footer>
