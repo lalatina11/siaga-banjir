@@ -36,7 +36,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $latesFloods = Flood::where('status', "NEW")->limit(5)->orderByDesc('created_at')->get();
+        $latesFloods = Flood::where('status', "NEW")->limit(5)->orderByDesc('updated_at')->get();
         return [
             ...parent::share($request),
             'name' => config('app.name'),
