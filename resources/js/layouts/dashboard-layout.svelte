@@ -1,14 +1,15 @@
 <script lang="ts">
-    import DashboardSidebar from '@/lib/components/sidebar/dashboard-sidebar.svelte';
-    import * as Sidebar from '@/lib/components/ui/sidebar';
-    import { roleToIndonesianLang } from '@/lib/helpers';
     import { usePage } from '@inertiajs/svelte';
     import type { Snippet } from 'svelte';
-    import IndexLayout from './index-layout.svelte';
+    import FloodNotification from '@/lib/components/floods/flood-notification.svelte';
     import ModeToggle from '@/lib/components/mode-toggle.svelte';
-    import UserDropdown from '@/lib/components/user/user-dropdown.svelte';
-    import type { DefaultPageProps } from '@/lib/types';
+    import DashboardSidebar from '@/lib/components/sidebar/dashboard-sidebar.svelte';
+    import * as Sidebar from '@/lib/components/ui/sidebar';
     import UserAvatar from '@/lib/components/user/user-avatar.svelte';
+    import UserDropdown from '@/lib/components/user/user-dropdown.svelte';
+    import { roleToIndonesianLang } from '@/lib/helpers';
+    import type { DefaultPageProps } from '@/lib/types';
+    import IndexLayout from './index-layout.svelte';
     interface Props {
         children: Snippet<[]>;
     }
@@ -36,6 +37,7 @@
                     {/if}
                 </div>
                 <div class="flex gap-2 items-center">
+                    <FloodNotification />
                     <ModeToggle />
                     <UserDropdown>
                         <UserAvatar />
