@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Link, usePage } from '@inertiajs/svelte';
+    import FloodNotification from '../floods/flood-notification.svelte';
     import ModeToggle from '../mode-toggle.svelte';
     import { buttonVariants } from '../ui/button';
     import UserAvatar from '../user/user-avatar.svelte';
@@ -12,6 +13,9 @@
 >
     <Link href="/" class="tracking-wide text-3xl font-extrabold">SB</Link>
     <div class="flex gap-2 items-center">
+        {#if auth.user !== null}
+            <FloodNotification />
+        {/if}
         <ModeToggle />
         {#if auth.user !== null}
             <UserDropdown>

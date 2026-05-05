@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Flood;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,14 +36,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-
+        $latesFloods = Flood::where('status', "NEW")->limit(5)->orderByDesc('created_at')->get();
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
             ],
-            'sidebar_state' => $request->cookie('sidebar:state', 'false')
+            'sidebar_state' => $request->cookie('sidebar:state', 'false'),
+            'latest_floods' => $latesFloods,
         ];
     }
 }
