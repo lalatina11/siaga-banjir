@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('avatar')->nullable();
+            $table->longText('avatar')->nullable();
             $table->string('avatar_storage_url')->nullable();
             $table->enum('role', ['USER', 'ADMIN', 'SUPERADMIN'])->default('USER');
             $table->rememberToken();

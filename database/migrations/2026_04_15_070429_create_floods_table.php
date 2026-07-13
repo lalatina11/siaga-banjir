@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->decimal('lat', 10, 7);
             $table->decimal('lng', 10, 7);
-            $table->text('description')->default("");
+            $table->longText('description');
             $table->text('image');
             $table->text('image_storage_url')->nullable();
             $table->enum('status', [
